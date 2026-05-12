@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Neurosync — Refresh Pitch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F1ECE0;
+    --paper-2: #E8E2D2;
+    --ink: #2B2620;
+    --ink-soft: #5A5147;
+    --ink-faint: #8A7F70;
+    --line: rgba(43,38,32,.12);
+    --matcha: #6E7F6A;
+    --matcha-deep: #4E5C4B;
+    --warm: #C9A06B;
+    --red: #B85C4C;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Inter', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+
+    /* OG Neurosync palette references (for the diagnosis swatch grid) */
+    --og-bg: #0A0E1A;
+    --og-elev: #131826;
+    --og-ink: #E8ECF5;
+    --og-delta: #5B4FE8;
+    --og-theta: #9B6FE8;
+    --og-alpha: #4ECDC4;
+    --og-beta: #F5A623;
+    --og-gamma: #FF6B6B;
+  }
+  [data-theme="dark"] {
+    --paper: #1A1611;
+    --paper-2: #221C16;
+    --ink: #ECE6D8;
+    --ink-soft: #B8AE9C;
+    --ink-faint: #786F60;
+    --line: rgba(236,230,216,.10);
+    --matcha: #9DB098;
+    --matcha-deep: #B6C6B0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-weight: 400; }
+  body {
+    background-image:
+      radial-gradient(rgba(43,38,32,.045) 1px, transparent 1px),
+      radial-gradient(rgba(43,38,32,.025) 1px, transparent 1px);
+    background-size: 3px 3px, 7px 7px;
+    background-position: 0 0, 1px 2px;
+  }
+  [data-theme="dark"] body {
+    background-image:
+      radial-gradient(rgba(236,230,216,.035) 1px, transparent 1px),
+      radial-gradient(rgba(236,230,216,.02) 1px, transparent 1px);
+    background-size: 3px 3px, 7px 7px;
+  }
+  .deck { display: flex; flex-direction: column; align-items: center; padding: 32px 16px 96px; gap: 28px; }
+  .slide {
+    width: min(1100px, 100%);
+    aspect-ratio: 16 / 9;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 64px 72px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 18px 60px -28px rgba(0,0,0,.18), 0 1px 0 rgba(255,255,255,.4) inset;
+  }
+  [data-theme="dark"] .slide {
+    box-shadow: 0 18px 60px -28px rgba(0,0,0,.6), 0 1px 0 rgba(255,255,255,.04) inset;
+  }
+  .slide-no {
+    position: absolute; top: 22px; right: 28px;
+    font-family: var(--serif); font-style: italic; font-size: 16px;
+    color: var(--ink-faint); letter-spacing: .05em;
+  }
+  .eyebrow {
+    font-size: 11px; letter-spacing: .28em; text-transform: uppercase;
+    color: var(--ink-faint); font-weight: 500;
+  }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 500; line-height: 1.05; }
+  h1 { font-size: 88px; letter-spacing: -.02em; }
+  h2 { font-size: 52px; letter-spacing: -.015em; }
+  h3 { font-size: 26px; }
+  .lede { font-family: var(--serif); font-size: 26px; line-height: 1.35; color: var(--ink-soft); max-width: 32ch; }
+  p { color: var(--ink-soft); line-height: 1.55; }
+  ul { list-style: none; }
+  li { color: var(--ink-soft); line-height: 1.55; }
+  .small { font-size: 13px; color: var(--ink-faint); letter-spacing: .04em; }
+  .row { display: flex; gap: 32px; }
+  .col { flex: 1; min-width: 0; }
+  .center { display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 28px; text-align: center; }
+  .between { justify-content: space-between; }
+  .pad-top { margin-top: 28px; }
+  .rule { height: 1px; background: var(--line); width: 64px; margin: 20px 0; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px;
+    font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint);
+  }
+  .pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--matcha); }
+  .pill.warn .dot { background: var(--warm); }
+  .pill.red .dot { background: var(--red); }
+  .pill.muted .dot { background: var(--ink-faint); }
+
+  /* Quote */
+  .quote {
+    font-family: var(--serif); font-style: italic; font-size: 72px; line-height: 1.05;
+    color: var(--ink); max-width: 18ch;
+  }
+  .quote-attr {
+    font-style: normal; font-size: 14px; color: var(--ink-faint);
+    margin-top: 28px; letter-spacing: .14em; text-transform: uppercase; font-family: var(--sans);
+  }
+
+  /* Diagnosis — finding rows */
+  .findings { display: flex; flex-direction: column; gap: 12px; margin-top: 18px; }
+  .finding {
+    display: grid; grid-template-columns: 14px 1fr; gap: 14px;
+    padding: 12px 16px; border: 1px solid var(--line); border-radius: 10px;
+    background: var(--paper-2);
+  }
+  [data-theme="dark"] .finding { background: rgba(236,230,216,.04); }
+  .finding .marker {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--red);
+    margin-top: 8px; box-shadow: 0 0 0 4px rgba(184,92,76,.12);
+  }
+  .finding .body { display: flex; flex-direction: column; gap: 4px; }
+  .finding code, .finding .tok {
+    font-family: var(--mono); font-size: 12px;
+    background: var(--paper); padding: 1px 6px; border-radius: 3px;
+    color: var(--ink); border: 1px solid var(--line);
+  }
+  .finding .why { font-size: 14px; color: var(--ink-soft); line-height: 1.5; }
+
+  /* OG palette swatches */
+  .swatches { display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap; }
+  .sw {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+  }
+  .sw .chip {
+    width: 68px; height: 68px; border-radius: 12px;
+    border: 1px solid var(--line);
+    box-shadow: 0 6px 16px -8px rgba(0,0,0,.3);
+  }
+  .sw .name { font-family: var(--mono); font-size: 10px; color: var(--ink-faint); letter-spacing: .06em; }
+  .sw .hex { font-family: var(--mono); font-size: 9px; color: var(--ink-faint); }
+
+  /* Reference moodboard (slide 7) */
+  .refs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-top: 26px; }
+  .ref {
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .ref-card {
+    aspect-ratio: 9 / 16; border-radius: 24px; border: 1px solid var(--line);
+    padding: 18px 14px; display: flex; flex-direction: column; justify-content: space-between;
+    overflow: hidden; position: relative;
+  }
+  .ref-card.opal { background: linear-gradient(160deg, #FFE9D6 0%, #F4B6A3 55%, #C97B8A 100%); }
+  .ref-card.onesec { background: linear-gradient(180deg, #F7F4EE 0%, #E4DCCB 100%); }
+  .ref-card.headspace { background: linear-gradient(170deg, #FFB347 0%, #FF7E5F 100%); }
+  .ref-card.calm { background: linear-gradient(180deg, #234E70 0%, #4F7CAC 60%, #B5D6E5 100%); }
+  .ref-card.endel { background: radial-gradient(circle at 50% 60%, #5A4B7A 0%, #1F1A2E 80%); }
+  .ref-card .rlogo {
+    font-family: var(--serif); font-style: italic; font-size: 18px; color: rgba(255,255,255,.92);
+    letter-spacing: .02em;
+  }
+  .ref-card.onesec .rlogo { color: #2B2620; }
+  .ref-card .rtime {
+    font-family: var(--serif); font-size: 40px; color: rgba(255,255,255,.95); line-height: 1;
+    align-self: center; font-weight: 500;
+  }
+  .ref-card.onesec .rtime { color: #2B2620; }
+  .ref-card .rdot {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: rgba(255,255,255,.85); align-self: center;
+  }
+  .ref-card.onesec .rdot { background: #2B2620; }
+  .ref-card .rverb {
+    font-family: var(--sans); font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+    color: rgba(255,255,255,.85); text-align: center;
+  }
+  .ref-card.onesec .rverb { color: #5A5147; }
+  .ref .rname { font-family: var(--serif); font-style: italic; font-size: 18px; color: var(--ink); text-align: center; }
+  .ref .rnote { font-size: 11px; color: var(--ink-faint); letter-spacing: .04em; text-align: center; }
+
+  /* Principles list (slide 8) */
+  .principles { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 32px; margin-top: 22px; }
+  .principle {
+    display: grid; grid-template-columns: 28px 1fr; gap: 14px;
+    align-items: start; padding: 14px 0;
+    border-top: 1px solid var(--line);
+  }
+  .principle .num {
+    font-family: var(--serif); font-style: italic; font-size: 20px; color: var(--matcha-deep);
+  }
+  .principle .pt { font-family: var(--serif); font-size: 18px; color: var(--ink); line-height: 1.3; }
+  .principle .pd { font-size: 13px; color: var(--ink-faint); margin-top: 4px; line-height: 1.45; }
+
+  /* Three-path cards (slide 9) */
+  .paths { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-top: 28px; flex: 1; }
+  .path {
+    border: 1px solid var(--line); border-radius: 14px; padding: 22px 22px 20px;
+    display: flex; flex-direction: column; gap: 10px;
+    background: var(--paper-2);
+    position: relative;
+  }
+  [data-theme="dark"] .path { background: rgba(236,230,216,.04); }
+  .path .ltr {
+    position: absolute; top: -14px; left: 22px;
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--paper); border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-style: italic; font-size: 17px; color: var(--ink);
+  }
+  .path .ptitle { font-family: var(--serif); font-size: 24px; color: var(--ink); margin-top: 4px; }
+  .path .pdesc { font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+  .path .pmeta { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-faint); margin-top: auto; padding-top: 10px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; }
+  .path.rec { border-color: rgba(110,127,106,.5); background: rgba(110,127,106,.06); }
+  .path.rec .ltr { border-color: var(--matcha); color: var(--matcha-deep); }
+
+  /* Footer */
+  .foot {
+    position: absolute; bottom: 22px; left: 72px; right: 72px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-faint);
+  }
+
+  /* OG screenshot stand-in (slide 2) */
+  .og-mock {
+    width: 320px; aspect-ratio: 9 / 16; border-radius: 28px;
+    background: #0A0E1A; padding: 24px 18px; display: flex; flex-direction: column; gap: 14px;
+    box-shadow: 0 30px 80px -40px rgba(0,0,0,.6);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .og-mock .og-h { display: flex; justify-content: space-between; align-items: center; color: #E8ECF5; font-size: 11px; letter-spacing: .14em; }
+  .og-mock .og-h .brand { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 14px; }
+  .og-mock .og-h .brand small { display: block; font-size: 8px; letter-spacing: .25em; color: #8892AA; margin-top: 2px; }
+  .og-ring {
+    margin: 18px auto 0; width: 200px; height: 200px; border-radius: 50%;
+    border: 2px solid #4ECDC4;
+    box-shadow: 0 0 40px rgba(78,205,196,.4), inset 0 0 30px rgba(78,205,196,.08);
+    display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 4px;
+    background: radial-gradient(circle at 50% 50%, rgba(78,205,196,.06), transparent 70%);
+  }
+  .og-ring .t { color: #E8ECF5; font-size: 32px; font-weight: 700; letter-spacing: .02em; }
+  .og-ring .l { color: #8892AA; font-size: 8px; letter-spacing: .22em; text-transform: uppercase; }
+  .og-ring .l .aw { color: #4ECDC4; }
+  .og-bands {
+    margin-top: auto; display: flex; gap: 6px; justify-content: center;
+  }
+  .og-bands .b {
+    padding: 6px 10px; border: 1px solid rgba(255,255,255,.06); border-radius: 8px;
+    font-size: 9px; color: #A8B0C5; letter-spacing: .08em;
+  }
+  .og-bands .b.on { border-color: #4ECDC4; color: #4ECDC4; background: rgba(78,205,196,.08); }
+
+  /* Print */
+  @media print {
+    @page { size: 1280px 720px; margin: 0; }
+    body { background: var(--paper); background-image: none; }
+    .deck { padding: 0; gap: 0; }
+    .slide {
+      aspect-ratio: auto; width: 1280px; height: 720px;
+      border-radius: 0; border: none; box-shadow: none;
+      page-break-after: always; break-after: page;
+    }
+    .toolbar { display: none !important; }
+  }
+
+  /* Toolbar */
+  .toolbar {
+    position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%);
+    background: rgba(20,16,12,.92); color: #ECE6D8;
+    border-radius: 999px; padding: 10px 14px; display: flex; gap: 8px; align-items: center;
+    font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+    z-index: 100; backdrop-filter: blur(8px);
+  }
+  .toolbar button {
+    border: 1px solid rgba(255,255,255,.16); background: transparent; color: inherit;
+    padding: 6px 12px; border-radius: 999px; cursor: pointer; font: inherit;
+    letter-spacing: inherit; text-transform: inherit;
+  }
+  .toolbar button:hover { background: rgba(255,255,255,.08); }
+  .toolbar .sep { width: 1px; height: 14px; background: rgba(255,255,255,.2); margin: 0 4px; }
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- ────────────────────────────────────────────────────────────────
+       SLIDE 1 — Title
+       ──────────────────────────────────────────────────────────────── -->
+  <section class="slide center">
+    <span class="slide-no">i</span>
+    <span class="eyebrow">Neurosync · refresh brief</span>
+    <h1>Less 2010.<br><em style="font-style:italic;color:var(--ink-soft);">More now.</em></h1>
+    <p class="lede" style="text-align:center;">A response to the chairman's note, and three roads forward.</p>
+    <div class="foot">
+      <span>neurosync · refresh</span>
+      <span>2026 · 05 · 12</span>
+    </div>
+  </section>
+
+  <!-- ────────────────────────────────────────────────────────────────
+       SLIDE 2 — Where we are
+       ──────────────────────────────────────────────────────────────── -->
+  <section class="slide">
+    <span class="slide-no">ii</span>
+    <span class="eyebrow">Where we are</span>
+    <div class="row" style="gap:60px; align-items:center; flex:1; margin-top:18px;">
+      <div class="col">
+        <h2>The current app.</h2>
+        <div class="rule"></div>
+        <p style="font-size:17px; max-width:42ch;">
+          Neurosync v1 — a brainwave focus timer with binaural audio, nature sounds,
+          a five-band entrainment picker, and a journey selector.
+        </p>
+        <p style="font-size:17px; max-width:42ch; margin-top:14px;">
+          Functionally complete. Visually anchored in 2017-era dashboards.
+        </p>
+        <div style="display:flex; gap:8px; margin-top:24px; flex-wrap:wrap;">
+          <span class="pill"><span class="dot"></span>built</span>
+          <span class="pill"><span class="dot"></span>audio engine works</span>
+          <span class="pill warn"><span class="dot"></span>aesthetic dated</span>
+        </div>
+      </div>
+      <div class="col" style="display:flex; justify-content:center;">
+        <div class="og-mock">
+          <div class="og-h">
+            <div class="brand">Neurosync<small>brainwave focus</small></div>
+            <span>⏻</span>
+          </div>
+          <div class="og-ring">
+            <div class="t">30:00</div>
+            <div class="l">round 1/4 · <span class="aw">10 hz alpha</span></div>
+          </div>
+          <div class="og-bands">
+            <div class="b">δ</div>
+            <div class="b">θ</div>
+            <div class="b on">α</div>
+            <div class="b">β</div>
+            <div class="b">γ</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>state of the art · circa 2017</span>
+      <span>02 / 10</span>
+    </div>
+  </section>
+
+  <!-- ────────────────────────────────────────────────────────────────
+       SLIDE 3 — The quote
+       ──────────────────────────────────────────────────────────────── -->
+  <section class="slide center">
+    <span class="slide-no">iii</span>
+    <span class="eyebrow">The note</span>
+    <p class="quote">
+      "Looks like a website<br>from 2010.<br>The colors are<br>for nerds."
+    </p>
+    <p class="quote-attr">— the chairman</p>
+    <div class="foot">
+      <span>received, processed, agreed</span>
+      <span>03 / 10</span>
+    </div>
+  </section>
+
+  <!-- ────────────────────────────────────────────────────────────────
+       SLIDE 4 — Diagnosis: colors
+       ──────────────────────────────────────────────────────────────── -->
+  <section class="slide">
+    <span class="slide-no">iv</span>
+    <span class="eyebrow">Diagnosis · colors</span>
+    <h2 style="margin-top:6px;">"For nerds."</h2>
+    <div class="rule"></div>
+    <p style="font-size:16px; max-width:62ch;">
+      Three palette choices anchor it: a hackathon-dark navy bg, a neon mint accent that
+      reads developer-tool not consumer-app, and a five-band rainbow that signals
+      scientific instrument.
+    </p>
+
+    <div class="swatches">
+      <div class="sw"><div class="chip" style="background:#0A0E1A"></div><div class="name">bg</div><div class="hex">#0A0E1A</div></div>
+      <div class="sw"><div class="chip" style="background:#131826"></div><div class="name">elev</div><div class="hex">#131826</div></div>
+      <div class="sw"><div class="chip" style="background:#4ECDC4; box-shadow:0 0 18px rgba(78,205,196,.5)"></div><div class="name">accent</div><div class="hex">#4ECDC4</div></div>
+      <div class="sw"><div class="chip" style="background:#5B4FE8"></div><div class="name">delta</div><div class="hex">#5B4FE8</div></div>
+      <div class="sw"><div class="chip" style="background:#9B6FE8"></div><div class="name">theta</div><div class="hex">#9B6FE8</div></div>
+      <div class="sw"><div class="chip" style="background:#F5A623"></div><div class="name">beta</div><div class="hex">#F5A623</div></div>
+      <div class="sw"><div class="chip" style="background:#FF6B6B"></div><div class="name">gamma</div><div class="hex">#FF6B6B</div></div>
+    </div>
+
+    <div class="findings">
+      <div class="finding">
+        <div class="marker"></div>
+        <div class="body">
+          <div><span class="tok">--bg #0A0E1A</span> + <span class="tok">--accent #4ECDC4</span> + glow halos</div>
+          <div class="why">Discord / Vercel / hackathon 2017–2020 palette. Reads "developer tool".</div>
+        </div>
+      </div>
+      <div class="finding">
+        <div class="marker"></div>
+        <div class="body">
+          <div>5-color brainwave rainbow (indigo / violet / mint / orange / red)</div>
+          <div class="why">Information-dense, looks like a scientific instrument panel. Not a focus app.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot">
+      <span>color audit</span>
+      <span>04 / 10</span>
+    </div>
+  </section>
+
+  <!-- ────────────────────────────────────────────────────────────────
+       SLIDE 5 — Diagnosis: type + surfaces
+       ──────────────────────────────────────────────────────────────── -->
+  <section class="slide">
+    <span class="slide-no">v</span>
+    <span class="eyebrow">Diagnosis · typography & surfaces</span>
+    <h2 style="margin-top:6px;">"Looks like 2010."</h2>
+    <div class="rule"></div>
+
+    <div class="findings">
+      <div class="finding">
+        <div class="marker"></div>
+        <div class="body">
+          <div><span class="tok">font-family: 'JetBrains Mono'</span> — 25+ occurrences</div>
+          <div class="why">Monospace as decoration = core nerd signal. Datadog / Linear / Vercel 2018-era. Labels, time display, metrics — everywhere.</div>
+        </div>
+      </div>
+      <div class="finding">
+        <div class="marker"></div>
+        <div class="body">
+          <div>Uppercase tiny labels + heavy letter-spacing (<span class="tok">.22em</span>)</div>
+          <div class="why">Bootstrap-era pattern. Reads like a backend admin tool.</div>
+        </div>
+      </div>
+      <div class="finding">
+        <div class="marker"></div>
+        <div class="body">
+          <div>Dark elevated cards <span class="tok">#131826</span> over <span class="tok">#0A0E1A</span>, rgba-white borders <span class="tok">0.06</span>, inset highlights</div>
+          <div class="why">Glassmorphism residue. Apple Music 2014 / iOS 7. Modern apps are flat or organically gradient.</div>
+        </div>
+      </div>
+      <div class="finding">
+        <div class="marker"></div>
+        <div class="body">
+          <div>Neon glow halos via <span class="tok">box-shadow rgba(...,0.4)</span></div>
+          <div class="why">Cyberpunk era residue. 2025 wellness apps use diffused light, not neon.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot">
+      <span>type & surface audit</span>
+      <span>05 / 10</span>
+    </div>
+  </section>
+
+  <!-- ────────────────────────────────────────────────────────────────
+       SLIDE 6 — Diagnosis: metaphor & density
+       ──────────────────────────────────────────────────────────────── -->
+  <section class="slide">
+    <span class="slide-no">vi</span>
+    <span class="eyebrow">Diagnosis · metaphor & density</span>
+    <h2 style="margin-top:6px;">A medical device.</h2>
+    <div class="rule"></div>
+    <p style="font-size:16px; max-width:62ch;">
+      The deepest issue isn't paint — it's that the UI behaves like a scientific instrument.
+      Five metrics on top. Frequency in hertz. A Windows-style audio mixer. A literal brain logo.
+    </p>
+
+    <div class="findings">
+      <div class="finding">
+        <div class="marker"></div>
+        <div class="body">
+          <div>Visible jargon: <span class="tok">"10 HZ ALPHA"</span>, <span class="tok">"ENTRAINED"</span>, δ/θ/α/β/γ</div>
+          <div class="why">Operating-a-medical-device vibe. The science should be hidden in settings, not headlining the timer.</div>
+        </div>
+      </div>
+      <div class="finding">
+        <div class="marker"></div>
+        <div class="body">
+          <div>Top strip: 5 metrics + 3 presets + theme toggle + brain logo</div>
+          <div class="why">Info-dump. Modern category shows one thing at a time.</div>
+        </div>
+      </div>
+      <div class="finding">
+        <div class="marker"></div>
+        <div class="body">
+          <div>Windows-style volume mixer with per-channel sliders</div>
+          <div class="why">Workstation aesthetic. DJ console, not a focus timer.</div>
+        </div>
+      </div>
+      <div class="finding">
+        <div class="marker"></div>
+        <div class="body">
+          <div>Footer: <span class="tok">"binaural beats · all data stored locally"</span></div>
+          <div class="why">Privacy-nerd badge. Reassures developers, alienates everyone else.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot">
+      <span>metaphor audit</span>
+      <span>06 / 10</span>
+    </div>
+  </section>
+
+  <!-- ────────────────────────────────────────────────────────────────
+       SLIDE 7 — Reference moodboard
+       ──────────────────────────────────────────────────────────────── -->
+  <section class="slide">
+    <span class="slide-no">vii</span>
+    <span class="eyebrow">What 2025 looks like</span>
+    <h2 style="margin-top:6px;">The category leaders.</h2>
+    <div class="rule"></div>
+    <p style="font-size:15px; max-width:64ch;">
+      Five apps in the focus / calm / wellness space. Different metaphors, shared moves:
+      soft chromatic gradients, one human-scale typeface, one verb, one button.
+    </p>
+
+    <div class="refs">
+      <div class="ref">
+        <div class="ref-card opal">
+          <div class="rlogo">opal</div>
+          <div class="rtime">2 : 14</div>
+          <div class="rverb">focus</div>
+        </div>
+        <div class="rname">Opal</div>
+        <div class="rnote">peach → coral gradient</div>
+      </div>
+      <div class="ref">
+        <div class="ref-card onesec">
+          <div class="rlogo">one sec</div>
+          <div class="rdot"></div>
+          <div class="rverb">breathe</div>
+        </div>
+        <div class="rname">One Sec</div>
+        <div class="rnote">warm off-white, one dot</div>
+      </div>
+      <div class="ref">
+        <div class="ref-card headspace">
+          <div class="rlogo">headspace</div>
+          <div class="rdot" style="background:rgba(255,255,255,.95)"></div>
+          <div class="rverb">begin</div>
+        </div>
+        <div class="rname">Headspace</div>
+        <div class="rnote">orange → coral warmth</div>
+      </div>
+      <div class="ref">
+        <div class="ref-card calm">
+          <div class="rlogo">calm</div>
+          <div class="rtime" style="font-size:36px;">10 min</div>
+          <div class="rverb">deep work</div>
+        </div>
+        <div class="rname">Calm</div>
+        <div class="rnote">dusk-blue serenity</div>
+      </div>
+      <div class="ref">
+        <div class="ref-card endel">
+          <div class="rlogo">endel</div>
+          <div class="rdot" style="background:radial-gradient(circle,#fff,rgba(255,255,255,.3));"></div>
+          <div class="rverb">flow</div>
+        </div>
+        <div class="rname">Endel</div>
+        <div class="rnote">generative aurora</div>
+      </div>
+    </div>
+
+    <div class="foot">
+      <span>moodboard</span>
+      <span>07 / 10</span>
+    </div>
+  </section>
+
+  <!-- ────────────────────────────────────────────────────────────────
+       SLIDE 8 — 2025 direction principles
+       ──────────────────────────────────────────────────────────────── -->
+  <section class="slide">
+    <span class="slide-no">viii</span>
+    <span class="eyebrow">Direction</span>
+    <h2 style="margin-top:6px;">Six moves the leaders share.</h2>
+    <div class="rule"></div>
+
+    <div class="principles">
+      <div class="principle">
+        <div class="num">i</div>
+        <div>
+          <div class="pt">Light-default, warm off-white.</div>
+          <div class="pd">Dark mode becomes opt-in. Cream / paper / dawn — never near-black.</div>
+        </div>
+      </div>
+      <div class="principle">
+        <div class="num">ii</div>
+        <div>
+          <div class="pt">Soft chromatic gradient washes.</div>
+          <div class="pd">Pastel, drifting, atmospheric. No neon, no flat dark, no glow halos.</div>
+        </div>
+      </div>
+      <div class="principle">
+        <div class="num">iii</div>
+        <div>
+          <div class="pt">One sans, optionally one humanist serif.</div>
+          <div class="pd">Drop all monospace. Manrope alone is fine. Mono → developer-tool tell.</div>
+        </div>
+      </div>
+      <div class="principle">
+        <div class="num">iv</div>
+        <div>
+          <div class="pt">Big calm numerals, almost no labels.</div>
+          <div class="pd">Time + one verb. Hide bands, hertz, entrainment behind a settings sheet.</div>
+        </div>
+      </div>
+      <div class="principle">
+        <div class="num">v</div>
+        <div>
+          <div class="pt">One visible action.</div>
+          <div class="pd">Progressive disclosure. The mixer, journeys, bands collapse into a drawer.</div>
+        </div>
+      </div>
+      <div class="principle">
+        <div class="num">vi</div>
+        <div>
+          <div class="pt">Organic motion.</div>
+          <div class="pd">Breath cycles, drifting gradients. No spinning rings, no neon pulse.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot">
+      <span>principles</span>
+      <span>08 / 10</span>
+    </div>
+  </section>
+
+  <!-- ────────────────────────────────────────────────────────────────
+       SLIDE 9 — Three paths
+       ──────────────────────────────────────────────────────────────── -->
+  <section class="slide">
+    <span class="slide-no">ix</span>
+    <span class="eyebrow">Three paths</span>
+    <h2 style="margin-top:6px;">Same brief, three depths.</h2>
+    <div class="rule"></div>
+
+    <div class="paths">
+      <div class="path">
+        <div class="ltr">A</div>
+        <div class="ptitle">Visual refresh.</div>
+        <div class="pdesc">
+          Keep the ring, mixer, brain-dump, and journey selector. Re-skin every surface.
+          Light warm bg. Drop mono. Hide Hz. Soft gradient backdrop. Organic motion.
+        </div>
+        <div class="pmeta">
+          <span>lowest risk</span>
+          <span>~1 day</span>
+        </div>
+      </div>
+
+      <div class="path rec">
+        <div class="ltr">B</div>
+        <div class="ptitle">One calm screen.</div>
+        <div class="pdesc">
+          Restructure to the Headspace / One Sec model. Time + play, front and center.
+          Mixer, bands, journey, brain-dump collapse behind one drawer.
+        </div>
+        <div class="pmeta">
+          <span style="color:var(--matcha-deep);">recommended</span>
+          <span>~3 days</span>
+        </div>
+      </div>
+
+      <div class="path">
+        <div class="ltr">C</div>
+        <div class="ptitle">New metaphor.</div>
+        <div class="pdesc">
+          Rethink the ring entirely. Could be a drifting orb, a breath-circle, an aurora field,
+          a light gradient that thickens over the session. Bigger swing, bigger upside.
+        </div>
+        <div class="pmeta">
+          <span>biggest swing</span>
+          <span>~1 week</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot">
+      <span>options</span>
+      <span>09 / 10</span>
+    </div>
+  </section>
+
+  <!-- ────────────────────────────────────────────────────────────────
+       SLIDE 10 — Ask
+       ──────────────────────────────────────────────────────────────── -->
+  <section class="slide center">
+    <span class="slide-no">x</span>
+    <span class="eyebrow">Decision</span>
+    <h1 style="font-size:84px;">Which road?</h1>
+    <p class="lede" style="text-align:center; max-width:32ch;">
+      Pick A, B, or C. Audio engine, brain-dump, and theme toggle survive all three.
+    </p>
+    <div style="display:flex; gap:14px; margin-top:14px;">
+      <span class="pill"><span class="dot"></span>A · refresh</span>
+      <span class="pill" style="border-color:var(--matcha); color:var(--matcha-deep);"><span class="dot"></span>B · calm screen</span>
+      <span class="pill warn"><span class="dot"></span>C · new metaphor</span>
+    </div>
+    <div class="foot">
+      <span>neurosync · refresh</span>
+      <span>10 / 10</span>
+    </div>
+  </section>
+
+</div>
+
+<div class="toolbar">
+  <button id="theme-btn">theme</button>
+  <span class="sep"></span>
+  <button onclick="window.print()">export pdf</button>
+</div>
+
+<script>
+  // Theme toggle (light ↔ dark) — persists per page reload in memory only
+  const root = document.documentElement;
+  document.getElementById('theme-btn').addEventListener('click', () => {
+    const cur = root.getAttribute('data-theme') || 'light';
+    root.setAttribute('data-theme', cur === 'light' ? 'dark' : 'light');
+  });
+</script>
+</body>
+</html>
