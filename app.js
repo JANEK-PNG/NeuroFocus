@@ -1268,7 +1268,9 @@
   // ===== Wire everything up =====
   document.getElementById('pause-btn').onclick = start; // start() toggles to pause if already running
   // Ring-as-button: clicking anywhere on the ring triggers play/pause
-  document.querySelector('.ring-wrap').addEventListener('click', (e) => {
+  // (.ring-wrap removed in calm-screen rebuild; guard for null)
+  const ringWrap = document.querySelector('.ring-wrap');
+  if (ringWrap) ringWrap.addEventListener('click', (e) => {
     if (e.target.closest('#pause-btn')) return; // button handles its own click
     start();
   });
@@ -1374,9 +1376,8 @@
 
   // Panels (nature / radio / mixer / entrainment) now live inline inside drawer tabs.
   // The legacy header buttons that used to toggle them as dropdowns are gone.
-  // Render the grids/lists once on init so they're visible inside the drawer:
-  renderNatureGrid();
-  renderRadioList();
+  // (renderNatureGrid + renderRadioList run later in the init section below,
+  //  after NATURE_SOUNDS / RADIO_STATIONS const declarations.)
 
   // Volume sliders
   document.getElementById('master-volume').addEventListener('input', (e) => {
