@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neurosync — Book of Inspirations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@300;400;500;600&family=General+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F4EFE6;
+    --paper-deep: #E8E0D0;
+    --ink: #2B2722;
+    --ink-soft: #5C544A;
+    --ink-muted: #8A8071;
+    --rule: #D6CCB8;
+    --highlight: #A8895B;
+  }
+
+  * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: var(--ink);
+    background: #2B2722;
+    line-height: 1.55;
+    font-size: 15px;
+  }
+
+  /* Paper grain texture (SVG noise, multiply blend) */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    opacity: 0.5;
+    mix-blend-mode: multiply;
+  }
+
+  /* Pages — like a real book */
+  .page {
+    width: 100%;
+    max-width: 920px;
+    margin: 24px auto;
+    background: var(--paper);
+    padding: 64px 72px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.4), 0 8px 20px rgba(0,0,0,0.25);
+    position: relative;
+    border-radius: 2px;
+  }
+
+  /* Page corner curl */
+  .page::after {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(225deg, rgba(0,0,0,0.08), transparent 40%);
+    pointer-events: none;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 400;
+    color: var(--ink);
+    margin-top: 0;
+    letter-spacing: -0.01em;
+  }
+
+  h1 { font-size: 72px; line-height: 0.95; font-variation-settings: 'opsz' 144, 'SOFT' 100; }
+  h2 { font-size: 44px; line-height: 1.05; font-variation-settings: 'opsz' 96, 'SOFT' 80; margin-bottom: 8px; }
+  h3 { font-size: 22px; margin-top: 32px; margin-bottom: 8px; font-style: italic; color: var(--ink-soft); }
+  h4 { font-size: 14px; font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 0.18em; font-weight: 500; color: var(--ink-muted); margin: 28px 0 10px; }
+
+  p { color: var(--ink-soft); }
+  em { font-family: 'Fraunces', serif; }
+
+  a {
+    color: var(--highlight);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(168,137,91,0.35);
+    transition: border-color 0.2s;
+    word-break: break-word;
+  }
+  a:hover { border-bottom-color: var(--highlight); }
+
+  hr {
+    border: none;
+    height: 1px;
+    background: var(--rule);
+    margin: 40px 0;
+  }
+
+  /* --- Cover --- */
+  .cover {
+    min-height: calc(100vh - 48px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 96px 72px;
+  }
+  .cover .label {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .cover h1 { font-size: 96px; margin: 40px 0 0; max-width: 700px; }
+  .cover .subtitle {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 28px;
+    color: var(--ink-soft);
+    margin-top: 24px;
+    max-width: 600px;
+    line-height: 1.3;
+  }
+  .cover-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: var(--ink-muted);
+    letter-spacing: 0.1em;
+  }
+  .cover-mark {
+    width: 72px;
+    height: 72px;
+    border: 1px solid var(--ink-soft);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 28px;
+    color: var(--ink-soft);
+  }
+
+  /* --- Table of Contents --- */
+  .toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 32px 0 0;
+  }
+  .toc-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--rule);
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+  }
+  .toc-num {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: var(--ink-muted);
+    letter-spacing: 0.2em;
+    flex: 0 0 60px;
+  }
+  .toc-title { flex: 1; color: var(--ink); }
+  .toc-title em { color: var(--ink-soft); }
+  .toc-page {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+
+  /* --- Chapter title --- */
+  .chapter-head {
+    margin-bottom: 48px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .chapter-num {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 16px;
+  }
+  .chapter-head .tagline {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--ink-soft);
+    margin-top: 12px;
+    max-width: 540px;
+  }
+
+  /* --- Swatch grid --- */
+  .swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 14px;
+    margin: 16px 0 8px;
+  }
+  .swatch {
+    aspect-ratio: 1 / 1.18;
+    border-radius: 4px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05), 0 2px 6px rgba(0,0,0,0.08);
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    line-height: 1.4;
+  }
+  .swatch .name { font-weight: 500; }
+  .swatch .hex {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    opacity: 0.7;
+    letter-spacing: 0.04em;
+  }
+
+  /* --- Band strip --- */
+  .band-strip {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin: 12px 0;
+  }
+  .band {
+    padding: 18px 14px;
+    border-radius: 4px;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1), 0 2px 6px rgba(0,0,0,0.1);
+  }
+  .band .b-name { font-size: 13px; font-weight: 500; }
+  .band .b-hex { font-family: 'JetBrains Mono', monospace; font-size: 10px; opacity: 0.8; letter-spacing: 0.05em; margin-top: 6px; }
+
+  /* --- Typography preview --- */
+  .type-preview {
+    padding: 28px 28px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 4px;
+    margin: 12px 0;
+    border: 1px solid var(--rule);
+  }
+  .type-display {
+    font-family: 'Fraunces', serif;
+    font-size: 56px;
+    font-variation-settings: 'opsz' 144, 'SOFT' 100;
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .type-meta {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: var(--ink-muted);
+    margin-top: 12px;
+    letter-spacing: 0.04em;
+  }
+  .type-timer {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'opsz' 144, 'wght' 380;
+    font-feature-settings: 'tnum';
+    font-size: 88px;
+    line-height: 1;
+    color: var(--ink);
+    margin-top: 18px;
+  }
+
+  /* --- Icons --- */
+  .icon-row {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 16px 0;
+  }
+  .icon-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: var(--ink-muted);
+  }
+  .icon-tile svg {
+    width: 40px;
+    height: 40px;
+    color: var(--ink-soft);
+  }
+
+  /* --- Microcopy table --- */
+  .copy-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 14px;
+  }
+  .copy-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  .copy-before {
+    font-family: 'Inter', sans-serif;
+    color: var(--ink-muted);
+    text-decoration: line-through;
+    text-decoration-color: rgba(0,0,0,0.2);
+    width: 45%;
+  }
+  .copy-after {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--ink);
+    font-size: 16px;
+  }
+
+  /* --- Reference list --- */
+  .ref-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 32px;
+    margin: 8px 0;
+  }
+  .ref-grid .ref {
+    padding: 8px 0;
+    border-bottom: 1px dotted var(--rule);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .ref-label {
+    color: var(--ink);
+    font-weight: 500;
+    margin-right: 6px;
+  }
+  .ref-link {
+    display: block;
+    font-size: 11px;
+    color: var(--highlight);
+    border-bottom: none;
+    word-break: break-all;
+  }
+
+  /* --- Texture demo card --- */
+  .texture-demo {
+    height: 140px;
+    border-radius: 6px;
+    margin: 12px 0;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--rule);
+  }
+  .texture-demo::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: 12px;
+    left: 16px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: rgba(255,255,255,0.85);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+  }
+
+  /* --- Decision matrix --- */
+  .matrix {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 13px;
+  }
+  .matrix th, .matrix td {
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  .matrix th {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--ink-muted);
+    font-weight: 500;
+  }
+  .matrix td:first-child {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--ink-soft);
+    width: 24%;
+  }
+
+  /* --- Floating nav --- */
+  .booknav {
+    position: fixed;
+    right: 28px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    background: rgba(244,239,230,0.92);
+    padding: 18px 14px;
+    border-radius: 100px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+    backdrop-filter: blur(6px);
+  }
+  .booknav a {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--rule);
+    border: none;
+    transition: background 0.2s, transform 0.2s;
+    display: block;
+  }
+  .booknav a:hover { background: var(--highlight); transform: scale(1.3); }
+  .booknav a[data-active="1"] { background: var(--ink); }
+
+  /* --- Download bar --- */
+  .toolbar {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(43,39,34,0.95);
+    color: #F4EFE6;
+    padding: 12px 20px;
+    border-radius: 100px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    z-index: 200;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+  }
+  .toolbar button {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.18);
+    color: #F4EFE6;
+    padding: 7px 14px;
+    border-radius: 100px;
+    font-family: inherit;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .toolbar button:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.32); }
+  .toolbar .sep { width: 1px; height: 14px; background: rgba(255,255,255,0.18); }
+
+  /* Print rules — clean book without nav/toolbar */
+  @media print {
+    body { background: white; }
+    body::before { display: none; }
+    .booknav, .toolbar { display: none !important; }
+    .page {
+      margin: 0;
+      padding: 48px 56px;
+      box-shadow: none;
+      page-break-after: always;
+      max-width: 100%;
+    }
+    .page::after { display: none; }
+    a { color: var(--ink); border: none; }
+    .ref-link { color: var(--ink-muted); }
+  }
+
+  /* Quote pulls */
+  blockquote {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.45;
+    color: var(--ink-soft);
+    border-left: 2px solid var(--highlight);
+    padding-left: 24px;
+    margin: 28px 0;
+    max-width: 540px;
+  }
+
+  /* Small badge */
+  .badge {
+    display: inline-block;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    border: 1px solid var(--rule);
+    border-radius: 100px;
+    padding: 4px 10px;
+    margin-right: 6px;
+  }
+
+  /* Concept-themed accent paper for each chapter */
+  .ch-forest { --paper: #EFE9DC; --ink: #2B2A22; --ink-soft: #4F4B3C; --ink-muted: #857F6B; --rule: #C8BC9E; --highlight: #6B7A3A; }
+  .ch-stone  { --paper: #F4EFE6; --ink: #2B2722; --ink-soft: #5C544A; --ink-muted: #8A8071; --rule: #D6CCB8; --highlight: #6E7F6A; }
+  .ch-dawn   { --paper: #FBF4EA; --ink: #2E2A26; --ink-soft: #5C5249; --ink-muted: #9A8C7E; --rule: #E8DCC8; --highlight: #D97757; }
+
+  .ch-forest, .ch-stone, .ch-dawn {
+    background: var(--paper);
+    color: var(--ink);
+  }
+  .ch-forest h1, .ch-forest h2, .ch-forest h3, .ch-forest h4,
+  .ch-stone  h1, .ch-stone  h2, .ch-stone  h3, .ch-stone  h4,
+  .ch-dawn   h1, .ch-dawn   h2, .ch-dawn   h3, .ch-dawn   h4 { color: var(--ink); }
+  .ch-forest p, .ch-stone p, .ch-dawn p { color: var(--ink-soft); }
+
+  @media (max-width: 720px) {
+    .page { padding: 40px 28px; }
+    h1 { font-size: 48px; }
+    h2 { font-size: 32px; }
+    .cover h1 { font-size: 56px; }
+    .ref-grid { grid-template-columns: 1fr; }
+    .booknav { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating page navigation -->
+<nav class="booknav" aria-label="Book navigation">
+  <a href="#cover" title="Cover"></a>
+  <a href="#contents" title="Contents"></a>
+  <a href="#brief" title="Brief"></a>
+  <a href="#forest" title="Forest Floor"></a>
+  <a href="#stone" title="Stone & Tide"></a>
+  <a href="#dawn" title="Dawn Garden"></a>
+  <a href="#decision" title="Decision"></a>
+</nav>
+
+<!-- Toolbar -->
+<div class="toolbar">
+  <span>Book of Inspirations</span>
+  <span class="sep"></span>
+  <button onclick="window.print()" title="Print or save as PDF (Cmd/Ctrl+P)">↓ Save as PDF</button>
+  <button onclick="document.documentElement.scrollIntoView({behavior:'smooth'})">↑ Top</button>
+</div>
+
+<!-- ============= COVER ============= -->
+<section class="page cover" id="cover">
+  <div>
+    <div class="label">Neurosync · Volume I</div>
+  </div>
+  <div>
+    <h1>A Book of<br>Inspirations</h1>
+    <p class="subtitle">Three quiet directions for a brainwave focus tool — moving from <em>laboratory</em> to <em>landscape</em>.</p>
+  </div>
+  <div class="cover-foot">
+    <div>
+      Prepared for the Board · Spring 2026<br>
+      Design Studio Edition
+    </div>
+    <div class="cover-mark">N</div>
+  </div>
+</section>
+
+<!-- ============= TABLE OF CONTENTS ============= -->
+<section class="page" id="contents">
+  <div class="label" style="font-family:'Inter',sans-serif;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--ink-muted);">Contents</div>
+  <h2 style="margin-top:18px;">What you'll find inside</h2>
+  <ul class="toc-list">
+    <li><span class="toc-num">I</span><span class="toc-title">The Brief — <em>why we're redrawing the map</em></span><span class="toc-page">003</span></li>
+    <li><span class="toc-num">II</span><span class="toc-title">Forest Floor — <em>damp earth, golden hour</em></span><span class="toc-page">004</span></li>
+    <li><span class="toc-num">III</span><span class="toc-title">Stone & Tide — <em>a tea room at dawn</em></span><span class="toc-page">009</span></li>
+    <li><span class="toc-num">IV</span><span class="toc-title">Dawn Garden — <em>kitchen light at 7am</em></span><span class="toc-page">014</span></li>
+    <li><span class="toc-num">V</span><span class="toc-title">Decision — <em>side by side</em></span><span class="toc-page">019</span></li>
+  </ul>
+  <hr>
+  <p style="font-family:'Fraunces',serif;font-style:italic;font-size:18px;color:var(--ink-soft);">
+    Each chapter is a complete worldview: palette, typography, iconography, microcopy, and the references that earned a place in our notebooks. Use the dots on the right to jump between chapters. Press <strong>Cmd/Ctrl + P</strong> to print or save the whole book as a PDF.
+  </p>
+</section>
+
+<!-- ============= BRIEF ============= -->
+<section class="page" id="brief">
+  <div class="chapter-num">Chapter I</div>
+  <h2>The Brief</h2>
+  <p class="tagline" style="font-family:'Fraunces',serif;font-style:italic;font-size:22px;color:var(--ink-soft);margin-top:12px;max-width:540px;">From a futuristic lab to a place a person actually wants to sit.</p>
+  <hr>
+
+  <h4>Board feedback (verbatim)</h4>
+  <blockquote>
+    "The UI looks like it's for futuristic tech people, not for the people who use brainwaves as a way of working. The design needs to connect more to nature, earthy colors, less computer-like vibes."
+  </blockquote>
+
+  <h4>What that means in design language</h4>
+  <p>
+    Drop the navy-and-cyan dashboard energy. Replace it with surfaces that feel <em>held</em>, not operated. Bring in earthy colors, a serif voice, subtle paper grain, slower motion. Keep every feature; only the skin and the tone change.
+  </p>
+
+  <h4>Three concepts on offer</h4>
+  <ul style="font-family:'Fraunces',serif;font-size:20px;line-height:1.7;color:var(--ink-soft);padding-left:24px;">
+    <li><strong>Forest Floor</strong> — earthy, woodsy, golden hour</li>
+    <li><strong>Stone & Tide</strong> — quiet, ceramic, contemplative</li>
+    <li><strong>Dawn Garden</strong> — warm, hopeful, morning routine</li>
+  </ul>
+
+  <h4>Constraints</h4>
+  <p>
+    Single-file HTML/CSS/JS app. No new dependencies. All features retained: Pomodoro presets, focus journeys, timer, entrainment engine (5 bands), ambient mixer, internet radio, brain dump. Light + dark themes both required. <strong>Light mode is the hero</strong> for all three concepts — a deliberate shift from the current dark-first identity.
+  </p>
+</section>
+
+<!-- ============= CHAPTER II — FOREST FLOOR ============= -->
+<section class="page ch-forest" id="forest">
+  <div class="chapter-head">
+    <div class="chapter-num">Chapter II</div>
+    <h2>Forest Floor</h2>
+    <p class="tagline">Sitting cross-legged on damp earth at golden hour. A clearing, not a dashboard.</p>
+  </div>
+
+  <h3>The mood</h3>
+  <p>Light filters through canopy in slow drifts. The app should feel like a place you <em>arrive at</em> — quiet, breathable, slightly humid. Moss underfoot, bark in your peripheral vision, a single shaft of sun.</p>
+
+  <h4>Light palette</h4>
+  <div class="swatch-grid">
+    <div class="swatch" style="background:#EFE9DC;color:#2B2A22;"><span class="name">Raw linen</span><span class="hex">#EFE9DC · bg</span></div>
+    <div class="swatch" style="background:#E6DDC9;color:#2B2A22;"><span class="name">Elev</span><span class="hex">#E6DDC9</span></div>
+    <div class="swatch" style="background:#DCD0B6;color:#2B2A22;"><span class="name">Elev 2</span><span class="hex">#DCD0B6</span></div>
+    <div class="swatch" style="background:#2B2A22;color:#EFE9DC;"><span class="name">Ink</span><span class="hex">#2B2A22</span></div>
+    <div class="swatch" style="background:#4F4B3C;color:#EFE9DC;"><span class="name">Ink soft</span><span class="hex">#4F4B3C</span></div>
+    <div class="swatch" style="background:#857F6B;color:#EFE9DC;"><span class="name">Ink muted</span><span class="hex">#857F6B</span></div>
+    <div class="swatch" style="background:#6B7A3A;color:#FFF;"><span class="name">Accent — Moss</span><span class="hex">#6B7A3A</span></div>
+  </div>
+
+  <h4>Dark palette</h4>
+  <div class="swatch-grid">
+    <div class="swatch" style="background:#1A1A14;color:#E8E1CC;"><span class="name">Loam</span><span class="hex">#1A1A14 · bg</span></div>
+    <div class="swatch" style="background:#23231B;color:#E8E1CC;"><span class="name">Elev</span><span class="hex">#23231B</span></div>
+    <div class="swatch" style="background:#2E2D22;color:#E8E1CC;"><span class="name">Elev 2</span><span class="hex">#2E2D22</span></div>
+    <div class="swatch" style="background:#9CAE5E;color:#1A1A14;"><span class="name">Sun-on-moss</span><span class="hex">#9CAE5E</span></div>
+  </div>
+
+  <h4>Brainwave bands — cool earth to warm clay</h4>
+  <div class="band-strip">
+    <div class="band" style="background:#3D4A2E;"><div class="b-name">Delta</div><div class="b-hex">#3D4A2E</div></div>
+    <div class="band" style="background:#5C6B3F;"><div class="b-name">Theta</div><div class="b-hex">#5C6B3F</div></div>
+    <div class="band" style="background:#A89B5C;"><div class="b-name">Alpha</div><div class="b-hex">#A89B5C</div></div>
+    <div class="band" style="background:#C77A3E;"><div class="b-name">Beta</div><div class="b-hex">#C77A3E</div></div>
+    <div class="band" style="background:#B84A28;"><div class="b-name">Gamma</div><div class="b-hex">#B84A28</div></div>
+  </div>
+
+  <h4>Typography — Fraunces + Inter</h4>
+  <div class="type-preview">
+    <div class="type-display">Begin sitting.</div>
+    <div class="type-meta">Fraunces · 56px · opsz 144 · weight 400</div>
+    <div class="type-timer">25:00</div>
+    <div class="type-meta">Fraunces tabular figures · monospace dies</div>
+  </div>
+
+  <h4>Texture — subtle, pressed paper</h4>
+  <div class="texture-demo" data-label="Paper grain · 4% multiply · pressed" style="background-image: url(&quot;data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>&quot;), linear-gradient(160deg,#6B7A3A 0%,#3D4A2E 100%); background-blend-mode: multiply;"></div>
+
+  <h4>Iconography — natural metaphors</h4>
+  <div class="icon-row">
+    <div class="icon-tile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V10"/><path d="M12 10c0-4 3-6 6-6 0 4-2 6-6 6Z"/><path d="M12 14c0-3-2-5-5-5 0 3 2 5 5 5Z"/></svg>
+      Sprout · focus
+    </div>
+    <div class="icon-tile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h13v9a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3Z"/><path d="M18 11h2a2 2 0 0 1 0 4h-2"/><path d="M8 5c0-1 1-2 2-1"/></svg>
+      Stoneware mug · short break
+    </div>
+    <div class="icon-tile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18h18"/><path d="M3 18a9 9 0 0 1 18 0"/><path d="M21 9a4 4 0 1 1-7-2"/></svg>
+      Moon over hill · long break
+    </div>
+    <div class="icon-tile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="18" rx="6" ry="2"/><ellipse cx="12" cy="14" rx="5" ry="1.5"/><ellipse cx="12" cy="10.5" rx="4" ry="1.2"/></svg>
+      Cairn · presets
+    </div>
+  </div>
+
+  <h4>Microcopy — quieter invitations</h4>
+  <table class="copy-table">
+    <tr><td class="copy-before">Start Session</td><td class="copy-after">Begin sitting</td></tr>
+    <tr><td class="copy-before">Entrainment Engine</td><td class="copy-after">Tuning</td></tr>
+    <tr><td class="copy-before">Brain Dump</td><td class="copy-after">Let it go</td></tr>
+  </table>
+
+  <h4>Animation feel</h4>
+  <p>Everything <em>settles</em>. No springs, no bounces — only eased decays. The timer ring breathes 4s @ scale 1.000→1.004. Press = pebble ripple outward. Phase transitions cross-fade with <code style="font-family:'JetBrains Mono',monospace;font-size:12px;">cubic-bezier(0.25, 0.46, 0.45, 0.94)</code> @ 600ms.</p>
+
+  <h4>The bold move</h4>
+  <blockquote>Replace the rectangular timer card with a hand-drawn irregular blob shape. The timer sits in a clearing, not a card.</blockquote>
+
+  <h4>References & inspirations</h4>
+  <div class="ref-grid">
+    <div class="ref"><span class="ref-label">Andy Goldsworthy</span>land art, leaf cairns<a class="ref-link" href="https://www.goldsworthy.cc.gla.ac.uk/" target="_blank">goldsworthy.cc.gla.ac.uk</a></div>
+    <div class="ref"><span class="ref-label">Rinko Kawauchi</span>soft natural light<a class="ref-link" href="https://rinkokawauchi.com/" target="_blank">rinkokawauchi.com</a></div>
+    <div class="ref"><span class="ref-label">Forest app</span>focus + nature<a class="ref-link" href="https://www.forestapp.cc/" target="_blank">forestapp.cc</a></div>
+    <div class="ref"><span class="ref-label">Oak Meditation</span>quiet UI<a class="ref-link" href="https://www.oakmeditation.com/" target="_blank">oakmeditation.com</a></div>
+    <div class="ref"><span class="ref-label">Insight Timer</span>library of practice<a class="ref-link" href="https://insighttimer.com/" target="_blank">insighttimer.com</a></div>
+    <div class="ref"><span class="ref-label">Opal</span>screen-time, earthy refresh<a class="ref-link" href="https://www.opal.so/" target="_blank">opal.so</a></div>
+    <div class="ref"><span class="ref-label">Endel</span>organic generative motion<a class="ref-link" href="https://endel.io/" target="_blank">endel.io</a></div>
+    <div class="ref"><span class="ref-label">Farrow & Ball</span>paint palette study<a class="ref-link" href="https://www.farrow-ball.com/paint-colours" target="_blank">farrow-ball.com</a></div>
+    <div class="ref"><span class="ref-label">Are.na · moss</span>collaborative moodboard<a class="ref-link" href="https://www.are.na/search/moss" target="_blank">are.na/search/moss</a></div>
+    <div class="ref"><span class="ref-label">Are.na · forest floor</span>texture pool<a class="ref-link" href="https://www.are.na/search/forest%20floor" target="_blank">are.na/search/forest floor</a></div>
+    <div class="ref"><span class="ref-label">Fraunces</span>variable serif<a class="ref-link" href="https://fonts.google.com/specimen/Fraunces" target="_blank">fonts.google.com/Fraunces</a></div>
+    <div class="ref"><span class="ref-label">Phosphor Icons</span>duotone option<a class="ref-link" href="https://phosphoricons.com/" target="_blank">phosphoricons.com</a></div>
+    <div class="ref"><span class="ref-label">Blobmaker</span>organic SVG shapes<a class="ref-link" href="https://www.blobmaker.app/" target="_blank">blobmaker.app</a></div>
+    <div class="ref"><span class="ref-label">Grainy gradients</span>SVG noise tutorial<a class="ref-link" href="https://grainy-gradients.vercel.app/" target="_blank">grainy-gradients.vercel.app</a></div>
+  </div>
+</section>
+
+<!-- ============= CHAPTER III — STONE & TIDE ============= -->
+<section class="page ch-stone" id="stone">
+  <div class="chapter-head">
+    <div class="chapter-num">Chapter III</div>
+    <h2>Stone & Tide</h2>
+    <p class="tagline">Tea room at dawn. Paper light through shoji. A river stone on raw linen.</p>
+  </div>
+
+  <h3>The mood</h3>
+  <p>The hush before a bell. Nothing hums or glows — surfaces breathe, edges soften, time pools instead of ticks. The app should feel <em>held</em>, not operated. Wabi-sabi in CSS.</p>
+
+  <h4>Light palette (hero)</h4>
+  <div class="swatch-grid">
+    <div class="swatch" style="background:#F4EFE6;color:#2B2722;"><span class="name">Unbleached paper</span><span class="hex">#F4EFE6 · bg</span></div>
+    <div class="swatch" style="background:#EBE4D6;color:#2B2722;"><span class="name">Elev</span><span class="hex">#EBE4D6</span></div>
+    <div class="swatch" style="background:#E0D7C5;color:#2B2722;"><span class="name">Elev 2</span><span class="hex">#E0D7C5</span></div>
+    <div class="swatch" style="background:#2B2722;color:#F4EFE6;"><span class="name">Ink</span><span class="hex">#2B2722</span></div>
+    <div class="swatch" style="background:#5C544A;color:#F4EFE6;"><span class="name">Ink soft</span><span class="hex">#5C544A</span></div>
+    <div class="swatch" style="background:#8A8071;color:#F4EFE6;"><span class="name">Ink muted</span><span class="hex">#8A8071</span></div>
+    <div class="swatch" style="background:#6E7F6A;color:#FFF;"><span class="name">Matcha glaze</span><span class="hex">#6E7F6A</span></div>
+  </div>
+
+  <h4>Dark palette</h4>
+  <div class="swatch-grid">
+    <div class="swatch" style="background:#1C1916;color:#E8E1D2;"><span class="name">Wet clay</span><span class="hex">#1C1916 · bg</span></div>
+    <div class="swatch" style="background:#25221E;color:#E8E1D2;"><span class="name">Elev</span><span class="hex">#25221E</span></div>
+    <div class="swatch" style="background:#9DB098;color:#1C1916;"><span class="name">Accent</span><span class="hex">#9DB098</span></div>
+  </div>
+
+  <h4>Brainwave bands — glazed ceramics</h4>
+  <div class="band-strip">
+    <div class="band" style="background:#4A5258;"><div class="b-name">Delta</div><div class="b-hex">#4A5258 · iron slate</div></div>
+    <div class="band" style="background:#6B5D7A;"><div class="b-name">Theta</div><div class="b-hex">#6B5D7A · amethyst</div></div>
+    <div class="band" style="background:#7A9080;"><div class="b-name">Alpha</div><div class="b-hex">#7A9080 · celadon</div></div>
+    <div class="band" style="background:#B8754A;"><div class="b-name">Beta</div><div class="b-hex">#B8754A · persimmon</div></div>
+    <div class="band" style="background:#8B3A2E;"><div class="b-name">Gamma</div><div class="b-hex">#8B3A2E · oxblood</div></div>
+  </div>
+
+  <h4>Typography — Fraunces variable + Inter</h4>
+  <div class="type-preview">
+    <div class="type-display" style="font-style:italic;">The bell.</div>
+    <div class="type-meta">Fraunces · italic · weight softens over session (500 → 380)</div>
+    <div class="type-timer" style="font-variation-settings:'opsz' 144,'wght' 400;">25:00</div>
+    <div class="type-meta">Tabular figures · digits soften as mind softens</div>
+  </div>
+
+  <h4>Texture — paper grain baked in</h4>
+  <div class="texture-demo" data-label="Washi turbulence · multiply blend" style="background-image: url(&quot;data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>&quot;), linear-gradient(160deg,#6E7F6A 0%,#5C544A 100%); background-blend-mode: multiply;"></div>
+
+  <h4>Iconography — sumi-e brushstrokes, 1.25px stroke</h4>
+  <div class="icon-row">
+    <div class="icon-tile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 4v1M12 19v1M4 12h1M19 12h1"/></svg>
+      Sun · focus
+    </div>
+    <div class="icon-tile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12.5A7 7 0 1 1 11.5 5"/></svg>
+      Moon · break
+    </div>
+    <div class="icon-tile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16c3-1 4-7 9-7s6 6 9 7"/></svg>
+      Tide · journey
+    </div>
+    <div class="icon-tile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17c2-5 4-5 7-5s5 0 7 5"/><path d="M5 17h14"/></svg>
+      Empty bowl · trash
+    </div>
+  </div>
+
+  <h4>Microcopy — ceremony, not commands</h4>
+  <table class="copy-table">
+    <tr><td class="copy-before">Start Focus</td><td class="copy-after">Begin</td></tr>
+    <tr><td class="copy-before">Session Complete!</td><td class="copy-after">The bell.</td></tr>
+    <tr><td class="copy-before">Reset Timer</td><td class="copy-after">Set it down</td></tr>
+  </table>
+
+  <h4>Animation feel</h4>
+  <p>Everything moves on the <em>exhale</em> curve — <code style="font-family:'JetBrains Mono',monospace;font-size:12px;">cubic-bezier(0.22, 0.61, 0.36, 1)</code> @ 680ms. The timer doesn't tick; it <em>fills like ink bleeding into paper</em>. Idle ring breathes on a 4.2s cycle, scale 1.00 → 1.012. No spinners — only a slow tide-line.</p>
+
+  <h4>The bold move</h4>
+  <blockquote>The timer is a stone, not a ring. A top-down river stone that gets visibly <em>wet</em> as the session progresses. Completion = fully glazed stone.</blockquote>
+
+  <h4>References & inspirations</h4>
+  <div class="ref-grid">
+    <div class="ref"><span class="ref-label">Hiroshi Sugimoto · Seascapes</span>horizon minimalism<a class="ref-link" href="https://www.sugimotohiroshi.com/seascapes-1" target="_blank">sugimotohiroshi.com</a></div>
+    <div class="ref"><span class="ref-label">Ryōan-ji rock garden</span>Kyoto<a class="ref-link" href="https://www.ryoanji.jp/" target="_blank">ryoanji.jp</a></div>
+    <div class="ref"><span class="ref-label">Axel Vervoordt</span>quiet interiors<a class="ref-link" href="https://www.axel-vervoordt.com/" target="_blank">axel-vervoordt.com</a></div>
+    <div class="ref"><span class="ref-label">iA Writer</span>restraint master<a class="ref-link" href="https://ia.net/writer" target="_blank">ia.net/writer</a></div>
+    <div class="ref"><span class="ref-label">Bear</span>writing app<a class="ref-link" href="https://bear.app/" target="_blank">bear.app</a></div>
+    <div class="ref"><span class="ref-label">Things 3</span>Cultured Code<a class="ref-link" href="https://culturedcode.com/things/" target="_blank">culturedcode.com/things</a></div>
+    <div class="ref"><span class="ref-label">Stoic. journal</span>contemplative iOS<a class="ref-link" href="https://www.getstoic.com/" target="_blank">getstoic.com</a></div>
+    <div class="ref"><span class="ref-label">Day One</span>journaling reference<a class="ref-link" href="https://dayoneapp.com/" target="_blank">dayoneapp.com</a></div>
+    <div class="ref"><span class="ref-label">Reeder 5</span>typographic clarity<a class="ref-link" href="https://reederapp.com/" target="_blank">reederapp.com</a></div>
+    <div class="ref"><span class="ref-label">Heath Ceramics</span>glaze palette<a class="ref-link" href="https://www.heathceramics.com/pages/tile-glaze-collections" target="_blank">heathceramics.com</a></div>
+    <div class="ref"><span class="ref-label">MUJI</span>off-white discipline<a class="ref-link" href="https://www.muji.com/" target="_blank">muji.com</a></div>
+    <div class="ref"><span class="ref-label">Klim · Söhne</span>quiet sans<a class="ref-link" href="https://klim.co.nz/retail-fonts/sohne/" target="_blank">klim.co.nz/sohne</a></div>
+    <div class="ref"><span class="ref-label">Are.na · wabi-sabi</span>moodboard pool<a class="ref-link" href="https://www.are.na/search/wabi-sabi" target="_blank">are.na/wabi-sabi</a></div>
+    <div class="ref"><span class="ref-label">Are.na · ceramics</span>moodboard pool<a class="ref-link" href="https://www.are.na/search/ceramics" target="_blank">are.na/ceramics</a></div>
+  </div>
+</section>
+
+<!-- ============= CHAPTER IV — DAWN GARDEN ============= -->
+<section class="page ch-dawn" id="dawn">
+  <div class="chapter-head">
+    <div class="chapter-num">Chapter IV</div>
+    <h2>Dawn Garden</h2>
+    <p class="tagline">First light through a kitchen window. Linen curtains, ceramic mug, dew on sage.</p>
+  </div>
+
+  <h3>The mood</h3>
+  <p>Soft, generous, unhurried — the app feels like it's already breathing slowly <em>with</em> you. Hand-touched but never twee. Confident enough to sit on a designer's home screen, gentle enough for someone who hasn't opened their eyes fully yet.</p>
+
+  <h4>Light palette</h4>
+  <div class="swatch-grid">
+    <div class="swatch" style="background:#FBF4EA;color:#2E2A26;"><span class="name">Warm paper</span><span class="hex">#FBF4EA · bg</span></div>
+    <div class="swatch" style="background:#FFFBF4;color:#2E2A26;"><span class="name">Elev</span><span class="hex">#FFFBF4</span></div>
+    <div class="swatch" style="background:#F4E8D6;color:#2E2A26;"><span class="name">Elev 2</span><span class="hex">#F4E8D6</span></div>
+    <div class="swatch" style="background:#2E2A26;color:#FBF4EA;"><span class="name">Ink</span><span class="hex">#2E2A26</span></div>
+    <div class="swatch" style="background:#5C5249;color:#FBF4EA;"><span class="name">Ink soft</span><span class="hex">#5C5249</span></div>
+    <div class="swatch" style="background:#9A8C7E;color:#FBF4EA;"><span class="name">Ink muted</span><span class="hex">#9A8C7E</span></div>
+    <div class="swatch" style="background:#D97757;color:#FFF;"><span class="name">Terracotta</span><span class="hex">#D97757</span></div>
+  </div>
+
+  <h4>Dark palette</h4>
+  <div class="swatch-grid">
+    <div class="swatch" style="background:#1F1A18;color:#F2E7D5;"><span class="name">Banked ember</span><span class="hex">#1F1A18 · bg</span></div>
+    <div class="swatch" style="background:#2A2320;color:#F2E7D5;"><span class="name">Elev</span><span class="hex">#2A2320</span></div>
+    <div class="swatch" style="background:#E89372;color:#1F1A18;"><span class="name">Dusk peach</span><span class="hex">#E89372</span></div>
+  </div>
+
+  <h4>Brainwave bands — petals & dawn sky</h4>
+  <div class="band-strip">
+    <div class="band" style="background:#8A6FA6;"><div class="b-name">Delta</div><div class="b-hex">#8A6FA6 · lavender</div></div>
+    <div class="band" style="background:#C97B6E;"><div class="b-name">Theta</div><div class="b-hex">#C97B6E · terracotta</div></div>
+    <div class="band" style="background:#E0A86B;"><div class="b-name">Alpha</div><div class="b-hex">#E0A86B · apricot</div></div>
+    <div class="band" style="background:#9DB17C;"><div class="b-name">Beta</div><div class="b-hex">#9DB17C · sage</div></div>
+    <div class="band" style="background:#F1C266;"><div class="b-name">Gamma</div><div class="b-hex">#F1C266 · pollen</div></div>
+  </div>
+
+  <h4>Typography — General Sans + Fraunces italic</h4>
+  <div class="type-preview" style="background:rgba(255,255,255,0.7);">
+    <div class="type-display" style="font-family:'General Sans','Inter',sans-serif;font-weight:500;">Morning Clarity</div>
+    <div class="type-display" style="font-style:italic;font-size:36px;color:#D97757;margin-top:-6px;">a session in three quiet acts</div>
+    <div class="type-meta">General Sans (UI) + Fraunces italic (accents)</div>
+    <div class="type-timer">25:00</div>
+  </div>
+
+  <h4>Texture — gradient mesh + noise</h4>
+  <div class="texture-demo" data-label="Mesh wash · dawn radial · 4% noise" style="background-image: url(&quot;data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.3 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>&quot;), radial-gradient(at 20% 20%, #F4C9A2 0%, transparent 55%), radial-gradient(at 80% 80%, #E89372 0%, transparent 60%), #FBF4EA;"></div>
+
+  <h4>Iconography — geometric base, hand-touched soul</h4>
+  <div class="icon-row">
+    <div class="icon-tile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V14"/><path d="M12 14c-3 0-5-2-5-5 3 0 5 2 5 5Z"/><path d="M12 14c3 0 6-3 6-7-4 0-6 3-6 7Z"/></svg>
+      Seedling · focus
+    </div>
+    <div class="icon-tile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="3"/><path d="M12 13c0-3-3-5-5-3M12 13c0-3 3-5 5-3M12 13c-3 0-5 3-3 5M12 13c3 0 5 3 3 5"/></svg>
+      Bud · break
+    </div>
+    <div class="icon-tile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M12 7c2 0 3 2 3 4M12 7c-2 0-3 2-3 4M12 17c2 0 3-2 3-4M12 17c-2 0-3-2-3-4M7 12c0-2 2-3 4-3M17 12c0-2-2-3-4-3"/></svg>
+      Bloom · long break
+    </div>
+    <div class="icon-tile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v2M12 19v2M5 12H3M21 12h-2M6 6l1.5 1.5M16.5 16.5 18 18M6 18l1.5-1.5M16.5 7.5 18 6"/><circle cx="12" cy="12" r="3"/></svg>
+      Sun · journey
+    </div>
+  </div>
+
+  <h4>Microcopy — warmer, more human</h4>
+  <table class="copy-table">
+    <tr><td class="copy-before">Start Session</td><td class="copy-after">Begin where you are</td></tr>
+    <tr><td class="copy-before">Reset Timer</td><td class="copy-after">Start over, gently</td></tr>
+    <tr><td class="copy-before">Brain Dump</td><td class="copy-after">Set it down · <em>a place for the noisy thoughts</em></td></tr>
+  </table>
+
+  <h4>Animation feel</h4>
+  <p>Everything eases on <code style="font-family:'JetBrains Mono',monospace;font-size:12px;">cubic-bezier(0.22, 0.61, 0.36, 1)</code> @ 480ms. Play button = petal unfurl 600ms. Ring progress breathes ±1.5% scale on a 5.5s loop. <em>Water, not rubber.</em></p>
+
+  <h4>The bold move</h4>
+  <blockquote>Replace the circular timer ring with a slowly blooming watercolor flower. Petals fill as minutes elapse; fully open at session end. The ring becomes the reward, not the cage.</blockquote>
+
+  <h4>References & inspirations</h4>
+  <div class="ref-grid">
+    <div class="ref"><span class="ref-label">Headspace</span>illustration system<a class="ref-link" href="https://www.headspace.com/" target="_blank">headspace.com</a></div>
+    <div class="ref"><span class="ref-label">Calm</span>warm meditation UI<a class="ref-link" href="https://www.calm.com/" target="_blank">calm.com</a></div>
+    <div class="ref"><span class="ref-label">Loóna</span>story-driven calm<a class="ref-link" href="https://loona.app/" target="_blank">loona.app</a></div>
+    <div class="ref"><span class="ref-label">Finch self-care</span>warm gamification<a class="ref-link" href="https://finchcare.com/" target="_blank">finchcare.com</a></div>
+    <div class="ref"><span class="ref-label">Balance meditation</span>guided practice<a class="ref-link" href="https://balanceapp.com/" target="_blank">balanceapp.com</a></div>
+    <div class="ref"><span class="ref-label">Apple Health · Mindfulness</span>system reference<a class="ref-link" href="https://www.apple.com/ios/health/" target="_blank">apple.com/ios/health</a></div>
+    <div class="ref"><span class="ref-label">Studio Ghibli · Totoro</span>color study<a class="ref-link" href="https://www.ghibli.jp/works/totoro/" target="_blank">ghibli.jp/works/totoro</a></div>
+    <div class="ref"><span class="ref-label">Pantone · Peach Fuzz 2024</span>palette anchor<a class="ref-link" href="https://www.pantone.com/color-of-the-year/2024" target="_blank">pantone.com/2024</a></div>
+    <div class="ref"><span class="ref-label">General Sans</span>warm humanist<a class="ref-link" href="https://www.fontshare.com/fonts/general-sans" target="_blank">fontshare.com/general-sans</a></div>
+    <div class="ref"><span class="ref-label">DM Serif Display</span>warm numerals<a class="ref-link" href="https://fonts.google.com/specimen/DM+Serif+Display" target="_blank">fonts.google.com/DM Serif</a></div>
+    <div class="ref"><span class="ref-label">Mesh gradients</span>generator<a class="ref-link" href="https://meshgradient.com/" target="_blank">meshgradient.com</a></div>
+    <div class="ref"><span class="ref-label">Rauno Freiberg</span>organic web motion<a class="ref-link" href="https://rauno.me/" target="_blank">rauno.me</a></div>
+    <div class="ref"><span class="ref-label">Lottie · flower</span>bloom animations<a class="ref-link" href="https://lottiefiles.com/search?q=flower" target="_blank">lottiefiles.com/flower</a></div>
+    <div class="ref"><span class="ref-label">Are.na · dawn</span>moodboard pool<a class="ref-link" href="https://www.are.na/search/dawn" target="_blank">are.na/dawn</a></div>
+  </div>
+</section>
+
+<!-- ============= CHAPTER V — DECISION ============= -->
+<section class="page" id="decision">
+  <div class="chapter-num">Chapter V</div>
+  <h2>Decision</h2>
+  <p class="tagline" style="font-family:'Fraunces',serif;font-style:italic;font-size:22px;color:var(--ink-soft);margin-top:12px;max-width:540px;">Three worlds, side by side. One vote, four follow-ups.</p>
+  <hr>
+
+  <h4>At a glance</h4>
+  <table class="matrix">
+    <thead>
+      <tr><th></th><th>Forest Floor</th><th>Stone & Tide</th><th>Dawn Garden</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Time of day</td><td>Golden hour</td><td>Dawn / dusk · still</td><td>7am morning</td></tr>
+      <tr><td>Energy</td><td>Grounded, woodsy</td><td>Quiet, ceremonial</td><td>Warm, hopeful</td></tr>
+      <tr><td>Hero mode</td><td>Light</td><td><strong>Light</strong></td><td>Light</td></tr>
+      <tr><td>Type voice</td><td>Fraunces + Inter</td><td>Fraunces variable + Inter</td><td>Fraunces italic + General Sans</td></tr>
+      <tr><td>Bold move</td><td>Blob-shape timer</td><td>Stone-as-timer</td><td>Watercolor flower</td></tr>
+      <tr><td>Implementation</td><td>High (organic SVG)</td><td>Medium (stone render)</td><td>Medium–high (masks)</td></tr>
+      <tr><td>Risk</td><td>Novelty fatigue</td><td>Stone metaphor untested</td><td>Drift toward twee</td></tr>
+      <tr><td>Closest reference</td><td>Oak, Forest</td><td>iA Writer, Stoic</td><td>Headspace, Finch</td></tr>
+    </tbody>
+  </table>
+
+  <h4>Common ground (all three agree)</h4>
+  <ul style="font-family:'Fraunces',serif;font-size:17px;line-height:1.7;color:var(--ink-soft);padding-left:24px;">
+    <li><strong>Kill JetBrains Mono.</strong> Tabular serif numerals instead. Drops 80% of the "tech" feel in one move.</li>
+    <li><strong>Add a serif</strong> — Fraunces is the consensus pick (variable, optical sizes, ink-trap warmth).</li>
+    <li><strong>Drop cyan & navy completely.</strong> All palettes are warm-paper light + deep-earth dark.</li>
+    <li><strong>Subtle SVG noise</strong> @ ~4% opacity, multiply-blended.</li>
+    <li><strong>Softer microcopy.</strong> Fewer imperatives, more invitations.</li>
+    <li><strong>Slower motion.</strong> 480–680ms eased exhales, zero bounces or springs.</li>
+  </ul>
+
+  <h4>Studio recommendation</h4>
+  <blockquote>
+    Stone & Tide. Defensible identity ("the stone app"), lower risk than Forest's blob, more distinctive than Dawn's flower. Variable typography ties beautifully into the entrainment narrative — <em>as the mind softens, so do the digits</em>.
+  </blockquote>
+  <p style="margin-top:-12px;">Pull microcopy + texture warmth from Dawn Garden; pull "begin sitting" tone from Forest Floor where it fits. Best of all three lives in the chosen frame.</p>
+
+  <h4>Board decision needed</h4>
+  <ol style="font-family:'Fraunces',serif;font-size:17px;line-height:1.7;color:var(--ink);padding-left:24px;">
+    <li>Pick a concept — <span class="badge">A</span><span class="badge">B</span><span class="badge">C</span><span class="badge">Hybrid</span></li>
+    <li>Approve font swap — Fraunces + Inter, drop JetBrains Mono</li>
+    <li>Approve "bold move" — blob / stone / flower — or defer to v2</li>
+    <li>Approve microcopy direction — quieter, more invitational</li>
+  </ol>
+
+  <hr>
+
+  <p style="font-family:'Fraunces',serif;font-style:italic;font-size:18px;color:var(--ink-muted);text-align:center;margin-top:48px;">
+    — End of Book —
+  </p>
+  <p style="text-align:center;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-muted);margin-top:8px;">
+    Neurosync Design Studio · Volume I
+  </p>
+</section>
+
+<script>
+  // Active-page indicator on the floating nav
+  (function () {
+    const nav = document.querySelectorAll('.booknav a');
+    const sections = ['cover','contents','brief','forest','stone','dawn','decision'].map(id => document.getElementById(id));
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && entry.intersectionRatio > 0.3) {
+          const idx = sections.indexOf(entry.target);
+          nav.forEach(n => n.removeAttribute('data-active'));
+          if (idx >= 0 && nav[idx]) nav[idx].setAttribute('data-active', '1');
+        }
+      });
+    }, { threshold: [0.3, 0.6] });
+    sections.forEach(s => s && io.observe(s));
+  })();
+</script>
+
+</body>
+</html>

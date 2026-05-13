@@ -1,0 +1,246 @@
+{
+  "_meta": {
+    "purpose": "Specimen registry for Neurosync · Stone & Tide. Drives the mystery-rock timer and the mineral cabinet.",
+    "source": "Wikimedia Commons (researched via photo agent, May 2026)",
+    "url_format": "All image URLs use the Special:FilePath redirect — Wikimedia's stable hotlinkable URL. They 302 to upload.wikimedia.org/wikipedia/commons/...",
+    "license_note": "All licenses must be verified on the source_page before publishing. Defaults assume Wikimedia Commons conventions.",
+    "gaps": "7 of 23 specimens are missing direct URLs — see entries with image_url: null. Pick from category page links during a later asset-curation pass.",
+    "selection_logic": "Today's pick: hash(date + user_id) % unlocked_tier_pool. Tier I unlocks at session 1; II at 8; III at 31; IV at 101; V at milestone unlocks."
+  },
+  "tiers": {
+    "I": { "name": "very common", "unlock_after_sessions": 1 },
+    "II": { "name": "common", "unlock_after_sessions": 8 },
+    "III": { "name": "uncommon", "unlock_after_sessions": 31 },
+    "IV": { "name": "rare", "unlock_after_sessions": 101 },
+    "V": { "name": "very rare", "unlock_after_sessions": 300 }
+  },
+  "specimens": [
+    {
+      "slug": "clear-quartz",
+      "name": "Clear Quartz",
+      "tier": "I",
+      "color_dominant": "#E8E2D0",
+      "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Quartz%20Br%C3%A9sil.jpg",
+      "license": "CC BY-SA 4.0",
+      "author": "Didier Descouens",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Quartz_Br%C3%A9sil.jpg"
+    },
+    {
+      "slug": "rose-quartz",
+      "name": "Rose Quartz",
+      "tier": "I",
+      "color_dominant": "#E8B8B8",
+      "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Rose%20Quartz%20Macro%201.JPG",
+      "license": "CC BY-SA 2.5",
+      "author": "verify on source_page",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Rose_Quartz_Macro_1.JPG"
+    },
+    {
+      "slug": "smoky-quartz",
+      "name": "Smoky Quartz",
+      "tier": "I",
+      "color_dominant": "#5E5448",
+      "image_url": null,
+      "source_page": "https://commons.wikimedia.org/wiki/Category:Smoky_quartz",
+      "note": "Pick a Lavinsky upload from category"
+    },
+    {
+      "slug": "calcite",
+      "name": "Calcite",
+      "tier": "I",
+      "color_dominant": "#E2BC78",
+      "image_url": null,
+      "source_page": "https://commons.wikimedia.org/wiki/Category:Yellow_calcite",
+      "note": "Need honey-yellow rhombohedron"
+    },
+    {
+      "slug": "pyrite",
+      "name": "Pyrite",
+      "tier": "II",
+      "color_dominant": "#D9A93D",
+      "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Pyrite%20Cubes.JPG",
+      "license": "CC BY 3.0",
+      "author": "Didier Descouens",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Pyrite_Cubes.JPG"
+    },
+    {
+      "slug": "agate",
+      "name": "Agate",
+      "tier": "II",
+      "color_dominant": "#C89668",
+      "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Agate.JPG",
+      "license": "CC BY 2.5",
+      "author": "verify on source_page",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Agate.JPG"
+    },
+    {
+      "slug": "amethyst",
+      "name": "Amethyst",
+      "tier": "II",
+      "color_dominant": "#7A56A0",
+      "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Amethist%20geode%20of%20kathedraal.JPG",
+      "license": "verify on source_page",
+      "author": "verify on source_page",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Amethist_geode_of_kathedraal.JPG"
+    },
+    {
+      "slug": "fluorite",
+      "name": "Fluorite",
+      "tier": "II",
+      "color_dominant": "#7AB088",
+      "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Fluorite,%20quartz%20300-4-1013.JPG",
+      "license": "CC BY-SA 4.0",
+      "author": "Parent Géry",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Fluorite,_quartz_300-4-1013.JPG",
+      "note": "Octahedral, not cubic — swap later if a zoned cubic Yaogangxian specimen is preferred"
+    },
+    {
+      "slug": "malachite",
+      "name": "Malachite",
+      "tier": "III",
+      "color_dominant": "#2F6E3A",
+      "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Botryoidal%20malachite%2001%20zoomed.jpg",
+      "license": "verify on source_page",
+      "author": "verify on source_page",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Botryoidal_malachite_01_zoomed.jpg"
+    },
+    {
+      "slug": "azurite",
+      "name": "Azurite",
+      "tier": "III",
+      "color_dominant": "#1E3A8A",
+      "image_url": null,
+      "source_page": "https://commons.wikimedia.org/wiki/Category:Azurite",
+      "note": "Pick radial-crystal Lavinsky upload (Tsumeb / Bisbee)"
+    },
+    {
+      "slug": "tourmaline",
+      "name": "Tourmaline (Elbaite)",
+      "tier": "III",
+      "color_dominant": "#A85968",
+      "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Pegmatite%20de%20tourmalines%20rubellite,%20elba%C3%AFte,%20mica%20(Br%C3%A9sil).JPG",
+      "license": "CC BY-SA 4.0",
+      "author": "Didier Descouens",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Pegmatite_de_tourmalines_rubellite,_elba%C3%AFte,_mica_(Br%C3%A9sil).JPG"
+    },
+    {
+      "slug": "garnet",
+      "name": "Garnet (Almandine)",
+      "tier": "III",
+      "color_dominant": "#7A1F1F",
+      "image_url": null,
+      "source_page": "https://commons.wikimedia.org/wiki/Category:Almandine",
+      "note": "Need dodecahedra in matrix"
+    },
+    {
+      "slug": "aquamarine",
+      "name": "Aquamarine",
+      "tier": "IV",
+      "color_dominant": "#7DB5BC",
+      "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Aquamarine%20P1000141.JPG",
+      "license": "CC BY-SA 2.5",
+      "author": "verify on source_page",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Aquamarine_P1000141.JPG"
+    },
+    {
+      "slug": "morganite",
+      "name": "Morganite",
+      "tier": "IV",
+      "color_dominant": "#E0A89A",
+      "image_url": null,
+      "source_page": "https://commons.wikimedia.org/wiki/Category:Morganite",
+      "note": "Pick Lavinsky upload from Brazil / Afghanistan"
+    },
+    {
+      "slug": "heliodor",
+      "name": "Heliodor",
+      "tier": "IV",
+      "color_dominant": "#D9B848",
+      "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Beryl%20heliodor%20polished%20XH.jpg",
+      "license": "verify on source_page",
+      "author": "verify on source_page",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Beryl_heliodor_polished_XH.jpg",
+      "note": "Polished gem — swap for rough crystal later"
+    },
+    {
+      "slug": "rhodochrosite",
+      "name": "Rhodochrosite",
+      "tier": "IV",
+      "color_dominant": "#C84858",
+      "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Rhodochrosite%20Sweet%20Home%20ROM.jpg",
+      "license": "verify on source_page",
+      "author": "Royal Ontario Museum / verify",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Rhodochrosite_Sweet_Home_ROM.jpg",
+      "note": "Red rhomb specimen; swap for banded stalactite if preferred"
+    },
+    {
+      "slug": "smithsonite",
+      "name": "Smithsonite",
+      "tier": "IV",
+      "color_dominant": "#7BC8B4",
+      "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Smithsonite-Hemimorphite-173827.jpg",
+      "license": "CC BY-SA 3.0",
+      "author": "Rob Lavinsky / iRocks.com",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Smithsonite-Hemimorphite-173827.jpg"
+    },
+    {
+      "slug": "emerald",
+      "name": "Emerald",
+      "tier": "V",
+      "color_dominant": "#1A8C58",
+      "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Emerald%20in%20a%20quartz%20and%20pegmatite%20matrix.JPG",
+      "license": "verify on source_page",
+      "author": "verify on source_page",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Emerald_in_a_quartz_and_pegmatite_matrix.JPG"
+    },
+    {
+      "slug": "red-beryl",
+      "name": "Red Beryl",
+      "tier": "V",
+      "color_dominant": "#B82A2A",
+      "image_url": null,
+      "source_page": "https://commons.wikimedia.org/wiki/Category:Red_beryl",
+      "note": "Wah Wah Mountains specimens are the iconic look"
+    },
+    {
+      "slug": "native-gold",
+      "name": "Native Gold",
+      "tier": "V",
+      "color_dominant": "#D9A21A",
+      "image_url": null,
+      "source_page": "https://commons.wikimedia.org/wiki/Category:Native_gold",
+      "note": "Eagles Nest Mine, California — Lavinsky uploads"
+    },
+    {
+      "slug": "native-silver",
+      "name": "Native Silver",
+      "tier": "V",
+      "color_dominant": "#C8C8C8",
+      "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Kongsberg%20silver%20works%20IMG%204618%20rk%2090522.JPG",
+      "license": "verify on source_page",
+      "author": "verify on source_page",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Kongsberg_silver_works_IMG_4618_rk_90522.JPG",
+      "note": "May be works photo, not specimen — swap for Cobalt, Ontario wire silver"
+    },
+    {
+      "slug": "cavansite",
+      "name": "Cavansite on Stilbite",
+      "tier": "V",
+      "color_dominant": "#1B7DC8",
+      "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Cavansite%20et%20stilbite%20(Inde)%202.JPG",
+      "license": "CC BY-SA 4.0",
+      "author": "Didier Descouens",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Cavansite_et_stilbite_(Inde)_2.JPG"
+    },
+    {
+      "slug": "azurite-malachite",
+      "name": "Azurite + Malachite",
+      "tier": "V",
+      "color_dominant": "#2C5288",
+      "image_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Azurite-Chrysocolla-Malachite-181315.jpg",
+      "license": "CC BY-SA 3.0",
+      "author": "Rob Lavinsky / iRocks.com",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Azurite-Chrysocolla-Malachite-181315.jpg"
+    }
+  ]
+}

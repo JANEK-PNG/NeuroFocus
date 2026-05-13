@@ -161,7 +161,6 @@
   .icon-btn-quiet svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.4; }
 
   /* ─── Hide legacy header (kept in DOM but unused visually) ─── */
-  header.legacy { display: none !important; }
   .theme-slider { /* keep clickable invisibly so the toggle still works if JS hits it */
     position: absolute; left: -10000px; opacity: 0; pointer-events: auto;
   }
@@ -177,14 +176,14 @@
     font-size: 17px; color: var(--ink-muted);
   }
   .time-display {
-    font-family: var(--serif) !important;
-    font-weight: 300 !important;
-    font-style: normal !important;
+    font-family: var(--serif);
+    font-weight: 300;
+    font-style: normal;
     font-variation-settings: 'opsz' 144;
-    font-size: 168px !important;
-    line-height: .95 !important;
-    letter-spacing: -.025em !important;
-    color: var(--ink) !important;
+    font-size: clamp(96px, 18vw, 168px);
+    line-height: .95;
+    letter-spacing: -.025em;
+    color: var(--ink);
     font-feature-settings: 'tnum';
     user-select: none;
     text-align: center;
@@ -193,11 +192,10 @@
     font-family: var(--serif); font-style: italic; font-weight: 400;
     font-size: 18px; color: var(--ink-soft);
   }
-  /* Override legacy ring-meta look — it now sits inline below the time */
   .ring-meta {
-    font-family: var(--sans) !important;
-    font-size: 12px !important;
-    color: var(--ink-muted) !important;
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--ink-muted);
     letter-spacing: .08em;
     text-transform: uppercase;
   }
@@ -363,19 +361,19 @@
   .sound-icon-cell svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.4; }
   .sound-icon-cell.on { color: var(--accent-deep); border-color: var(--accent); background: var(--accent-soft); }
 
-  /* Hide the legacy mixer-panel chrome inside the drawer — keep its <input>s alive */
+  /* Sound panels live inline inside drawer tabs */
   .mixer-panel, .nature-panel, .radio-panel, .entrainment-panel {
-    position: static !important;
-    box-shadow: none !important;
-    background: transparent !important;
-    border: none !important;
-    padding: 0 !important;
-    width: 100% !important;
-    max-width: none !important;
-    transform: none !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    display: block !important;
+    position: static;
+    box-shadow: none;
+    background: transparent;
+    border: none;
+    padding: 0;
+    width: 100%;
+    max-width: none;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+    display: block;
     margin: 0;
   }
   .mixer-panel .nature-panel-head,
@@ -443,10 +441,6 @@
   }
   .interval-card.custom-card.active svg { color: var(--accent-deep); }
 
-  /* Hide the entrainment dropdown button — we surface the items inline */
-  .entrainment-btn, .nature-btn, .radio-btn, .mixer-btn {
-    display: none !important;
-  }
   .entrain-list {
     display: flex; flex-direction: column; gap: 8px;
     margin-top: 16px;
@@ -664,7 +658,7 @@
     font-size: 18px; color: var(--ink); margin-top: 18px; margin-bottom: 6px;
   }
   .modal p { color: var(--ink-soft); line-height: 1.6; margin-bottom: 10px; font-size: 14px; }
-  .modal-hz { font-size: 13px !important; color: var(--ink-muted) !important; letter-spacing: .04em; }
+  .modal-hz { font-size: 13px; color: var(--ink-muted); letter-spacing: .04em; }
   .settings-row { margin-bottom: 18px; }
   .settings-row .label-row {
     display: flex; justify-content: space-between; margin-bottom: 6px;
@@ -688,13 +682,64 @@
   .bg-wave, .timer-card, .ring-wrap, .metrics-strip, .mode-label-spacer,
   .ring-svg, .ring-center, .time-group, .play-row,
   .ring-reset, .play-btn:not(.play-btn-calm), .mode-switcher,
-  footer.legacy { display: none !important; }
   /* Items we keep alive for JS but render zero-size */
   .hidden-keep {
     position: absolute !important;
     width: 1px !important; height: 1px !important;
     overflow: hidden !important;
     clip: rect(0 0 0 0); white-space: nowrap;
+  }
+
+  /* ─── Mobile (≤640px) ─── */
+  @media (max-width: 640px) {
+    .stage { padding: 0; }
+    .topbar { padding: 18px 20px 0; }
+    .brand-mini { font-size: 17px; }
+    .calm { padding: 0 20px; gap: 18px; }
+    .session-label { font-size: 11px; letter-spacing: .18em; }
+    .phase-line { font-size: 15px; }
+    .play-btn-calm { width: 76px; height: 76px; }
+    .play-btn-calm svg { width: 26px; height: 26px; }
+    .meta-strip { font-size: 11px; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .mode-switcher { transform: scale(.9); }
+    /* Drawer becomes near-full-screen sheet when open */
+    .drawer {
+      padding: 14px 18px 22px;
+      max-height: 92vh;
+      transform: translateY(calc(100% - 52px));
+    }
+    .drawer.open { transform: translateY(0); }
+    .drawer-handle { padding: 12px 0; font-size: 12px; }
+    .drawer-tabs { gap: 4px; margin-bottom: 16px; }
+    .drawer-tab { padding: 7px 12px; font-size: 11px; }
+    .panel-title { font-size: 19px; margin-bottom: 10px; }
+    /* Presets: 2 columns instead of 4 */
+    .interval-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .interval-card { padding: 14px 10px; }
+    /* Fader rows more compact */
+    .fader-channel { grid-template-columns: 80px 1fr 36px; gap: 12px; padding: 10px 0; }
+    .fader-channel .fader-label { font-size: 13px; }
+    /* Sound icon grid 3-up */
+    .nature-grid, .radio-list, #nature-grid, #radio-list {
+      grid-template-columns: repeat(3, 1fr) !important;
+    }
+    /* Brain dump: full-width input */
+    .dump-form { flex-direction: column; gap: 8px; }
+    .dump-form input { width: 100%; }
+    .dump-form button { width: 100%; }
+    /* Modal: edge-to-edge with safe insets */
+    .modal-content {
+      max-width: 100%;
+      margin: 20px;
+      padding: 24px 20px;
+      max-height: calc(100vh - 40px);
+      overflow-y: auto;
+    }
+    /* Atmosphere blobs smaller on phone to avoid washout */
+    .atmosphere::before, .atmosphere::after, .wash-c {
+      filter: blur(50px);
+      opacity: .55;
+    }
   }
 </style>
 </head>
@@ -795,15 +840,6 @@
     <span id="stat-streak">0</span>
     <span id="stat-total">0</span>
     <svg viewBox="0 0 280 280"><circle id="ring-progress" cx="140" cy="140" r="128" stroke-dasharray="804.25"/></svg>
-    <button id="entrainment-btn" type="button"><span id="entrainment-btn-icon"></span></button>
-    <button id="nature-btn" type="button"></button>
-    <button id="nature-close" type="button"></button>
-    <button id="radio-btn" type="button"></button>
-    <button id="radio-close" type="button"></button>
-    <button id="mixer-btn" type="button"></button>
-    <button id="mixer-close" type="button"></button>
-    <button id="back-to-settings" type="button"></button>
-    <button id="open-about" type="button"></button>
     <button id="reset-btn" type="button"></button>
   </div>
 
@@ -1870,15 +1906,9 @@
   };
 
   function updateAudioBarUI() {
-    // Update entrainment panel item active states
     document.querySelectorAll('.entrain-item').forEach(b => {
       b.classList.toggle('active', b.dataset.audioMode === cfg.audioMode);
     });
-    // Update entrainment header button: has-active ring + contextual icon
-    const eBtn  = document.getElementById('entrainment-btn');
-    const eIcon = document.getElementById('entrainment-btn-icon');
-    if (eBtn)  eBtn.classList.toggle('has-active', cfg.audioMode !== 'off');
-    if (eIcon) eIcon.innerHTML = ENTRAINMENT_ICONS[cfg.audioMode] || ENTRAINMENT_ICONS.off;
     updateMixerActiveStates();
   }
 
@@ -2359,59 +2389,11 @@
     if (e.target.id === 'modal-overlay') closeModal();
   });
 
-  // Nature panel toggle
-  document.getElementById('nature-btn').onclick = (e) => {
-    e.stopPropagation();
-    const panel = document.getElementById('nature-panel');
-    document.getElementById('radio-panel').classList.remove('show');
-    document.getElementById('mixer-panel').classList.remove('show');
-    document.getElementById('entrainment-panel').classList.remove('show');
-    panel.classList.toggle('show');
-    if (panel.classList.contains('show')) renderNatureGrid();
-  };
-  document.getElementById('nature-close').onclick = () => {
-    document.getElementById('nature-panel').classList.remove('show');
-  };
-
-  // Radio panel toggle
-  document.getElementById('radio-btn').onclick = (e) => {
-    e.stopPropagation();
-    const panel = document.getElementById('radio-panel');
-    document.getElementById('nature-panel').classList.remove('show');
-    document.getElementById('mixer-panel').classList.remove('show');
-    document.getElementById('entrainment-panel').classList.remove('show');
-    panel.classList.toggle('show');
-    if (panel.classList.contains('show')) renderRadioList();
-  };
-  document.getElementById('radio-close').onclick = () => {
-    document.getElementById('radio-panel').classList.remove('show');
-  };
-
-  // Volume mixer panel toggle
-  document.getElementById('mixer-btn').onclick = (e) => {
-    e.stopPropagation();
-    const panel = document.getElementById('mixer-panel');
-    document.getElementById('nature-panel').classList.remove('show');
-    document.getElementById('radio-panel').classList.remove('show');
-    document.getElementById('entrainment-panel').classList.remove('show');
-    panel.classList.toggle('show');
-  };
-  document.getElementById('mixer-close').onclick = () => {
-    document.getElementById('mixer-panel').classList.remove('show');
-  };
-
-  // Entrainment panel toggle
-  document.getElementById('entrainment-btn').onclick = (e) => {
-    e.stopPropagation();
-    const panel = document.getElementById('entrainment-panel');
-    document.getElementById('nature-panel').classList.remove('show');
-    document.getElementById('radio-panel').classList.remove('show');
-    document.getElementById('mixer-panel').classList.remove('show');
-    panel.classList.toggle('show');
-  };
-  document.getElementById('entrainment-close').onclick = () => {
-    document.getElementById('entrainment-panel').classList.remove('show');
-  };
+  // Panels (nature / radio / mixer / entrainment) now live inline inside drawer tabs.
+  // The legacy header buttons that used to toggle them as dropdowns are gone.
+  // Render the grids/lists once on init so they're visible inside the drawer:
+  renderNatureGrid();
+  renderRadioList();
 
   // Volume sliders
   document.getElementById('master-volume').addEventListener('input', (e) => {
@@ -3035,8 +3017,6 @@
   }
 
   function updateNatureBtn() {
-    const btn = document.getElementById('nature-btn');
-    btn.classList.toggle('has-active', activeNature !== null);
     updateMixerActiveStates();
   }
 

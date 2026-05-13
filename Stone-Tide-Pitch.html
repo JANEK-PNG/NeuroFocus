@@ -1,0 +1,726 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stone & Tide — Pitch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F1ECE0;
+    --paper-2: #E8E2D2;
+    --ink: #2B2620;
+    --ink-soft: #5A5147;
+    --ink-faint: #8A7F70;
+    --line: rgba(43,38,32,.12);
+    --matcha: #6E7F6A;
+    --matcha-deep: #4E5C4B;
+    --warm: #C9A06B;
+    --stone-dry-1: #EBE4D6;
+    --stone-dry-2: #D9CFBA;
+    --stone-dry-3: #BFB29A;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Inter', system-ui, sans-serif;
+  }
+  [data-theme="dark"] {
+    --paper: #1A1611;
+    --paper-2: #221C16;
+    --ink: #ECE6D8;
+    --ink-soft: #B8AE9C;
+    --ink-faint: #786F60;
+    --line: rgba(236,230,216,.10);
+    --matcha: #9DB098;
+    --matcha-deep: #B6C6B0;
+    --stone-dry-1: #3A332C;
+    --stone-dry-2: #2A2520;
+    --stone-dry-3: #1E1A17;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-weight: 400; }
+  body {
+    background-image:
+      radial-gradient(rgba(43,38,32,.045) 1px, transparent 1px),
+      radial-gradient(rgba(43,38,32,.025) 1px, transparent 1px);
+    background-size: 3px 3px, 7px 7px;
+    background-position: 0 0, 1px 2px;
+  }
+  [data-theme="dark"] body, [data-theme="dark"] {
+    background-image:
+      radial-gradient(rgba(236,230,216,.035) 1px, transparent 1px),
+      radial-gradient(rgba(236,230,216,.02) 1px, transparent 1px);
+    background-size: 3px 3px, 7px 7px;
+  }
+  .deck { display: flex; flex-direction: column; align-items: center; padding: 32px 16px 96px; gap: 28px; }
+  .slide {
+    width: min(1100px, 100%);
+    aspect-ratio: 16 / 9;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 64px 72px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 18px 60px -28px rgba(0,0,0,.18), 0 1px 0 rgba(255,255,255,.4) inset;
+  }
+  [data-theme="dark"] .slide {
+    box-shadow: 0 18px 60px -28px rgba(0,0,0,.6), 0 1px 0 rgba(255,255,255,.04) inset;
+  }
+  .slide-no {
+    position: absolute; top: 22px; right: 28px;
+    font-family: var(--serif); font-style: italic; font-size: 16px;
+    color: var(--ink-faint); letter-spacing: .05em;
+  }
+  .eyebrow {
+    font-size: 11px; letter-spacing: .28em; text-transform: uppercase;
+    color: var(--ink-faint); font-weight: 500;
+  }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 500; line-height: 1.05; }
+  h1 { font-size: 88px; letter-spacing: -.02em; }
+  h2 { font-size: 56px; letter-spacing: -.015em; }
+  h3 { font-size: 28px; }
+  .lede { font-family: var(--serif); font-size: 28px; line-height: 1.35; color: var(--ink-soft); max-width: 28ch; }
+  p { color: var(--ink-soft); line-height: 1.55; }
+  .small { font-size: 13px; color: var(--ink-faint); letter-spacing: .04em; }
+  .row { display: flex; gap: 32px; }
+  .col { flex: 1; min-width: 0; }
+  .center { display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 28px; text-align: center; }
+  .between { justify-content: space-between; }
+  .pad-top { margin-top: 28px; }
+  .rule { height: 1px; background: var(--line); width: 64px; margin: 24px 0; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px;
+    font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint);
+  }
+  .pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--matcha); }
+  .pill.warn .dot { background: var(--warm); }
+  .pill.muted .dot { background: var(--ink-faint); }
+
+  /* Quote */
+  .quote {
+    font-family: var(--serif); font-style: italic; font-size: 64px; line-height: 1.1;
+    color: var(--ink); max-width: 18ch;
+  }
+  .quote-attr { font-style: normal; font-size: 14px; color: var(--ink-faint); margin-top: 24px; letter-spacing: .12em; text-transform: uppercase; font-family: var(--sans); }
+
+  /* Concept strip */
+  .strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 32px; }
+  .strip .cell { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .strip svg { width: 100%; height: auto; }
+  .strip .lbl { font-family: var(--serif); font-style: italic; font-size: 20px; color: var(--ink-soft); }
+  .strip .stage { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-faint); }
+
+  /* Phone mock */
+  .phone {
+    width: 360px; min-width: 360px; aspect-ratio: 9 / 19;
+    background: var(--paper); border-radius: 38px; border: 1px solid var(--line);
+    padding: 28px 22px; display: flex; flex-direction: column; gap: 18px;
+    box-shadow: 0 30px 80px -40px rgba(0,0,0,.35), 0 0 0 8px var(--paper-2);
+  }
+  .phone-top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .phone-logo { font-family: var(--serif); font-style: italic; font-size: 22px; color: var(--ink); }
+  .phone-sub { font-size: 9px; letter-spacing: .2em; color: var(--ink-faint); text-transform: uppercase; }
+  .phone-toggle { width: 38px; height: 20px; border-radius: 999px; border: 1px solid var(--line); background: var(--paper-2); }
+  .phone-modes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .phone-modes .m {
+    border: 1px solid var(--line); border-radius: 10px; padding: 8px 4px;
+    font-size: 9px; color: var(--ink-soft); text-align: center; font-weight: 500;
+  }
+  .phone-modes .m.on { border-color: var(--matcha); background: rgba(110,127,106,.08); color: var(--ink); }
+  .phone-stone { display: flex; justify-content: center; padding: 14px 0; }
+  .phone-stone svg { width: 180px; height: 180px; }
+  .phone-time { text-align: center; font-family: var(--serif); font-style: italic; font-size: 56px; color: var(--ink); line-height: 1; }
+  .phone-phase { text-align: center; font-family: var(--serif); font-style: italic; font-size: 14px; color: var(--ink-faint); margin-top: 6px; }
+  .phone-controls { display: flex; justify-content: center; gap: 14px; margin-top: 8px; }
+  .phone-controls .c { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; color: var(--ink-soft); font-size: 12px; }
+  .phone-controls .c.play { background: var(--matcha); color: #fff; border-color: var(--matcha); }
+  .phone-coll {
+    margin-top: auto; padding-top: 12px; border-top: 1px solid var(--line);
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+  }
+  .phone-coll .label { font-family: var(--serif); font-style: italic; font-size: 11px; color: var(--ink-faint); }
+  .phone-coll .row2 { display: flex; gap: 12px; }
+  .phone-coll .pebble {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, var(--stone-dry-1), var(--stone-dry-3) 80%);
+    box-shadow: inset -2px -3px 6px rgba(0,0,0,.18), inset 1px 1px 2px rgba(255,255,255,.4);
+  }
+  .phone-coll .pebble.dashed {
+    background: transparent;
+    border: 1.5px dashed var(--ink-faint);
+    box-shadow: none;
+  }
+  .specimen-row { align-items: center; }
+  .specimen-row .spec { width: 26px; height: 26px; display: block; flex: 0 0 26px; }
+  .specimen-row .spec.lg { width: 90px; height: 90px; flex: 0 0 90px; }
+  .specimen-lg { width: 100px; height: 100px; flex: 0 0 100px; }
+
+  /* Mineral cabinet (slide 8 + tier ladder) */
+  .cabinet {
+    margin-top: 28px;
+    display: flex; flex-direction: column; gap: 18px;
+  }
+  .cab-shelf {
+    display: flex; align-items: flex-end; gap: 22px;
+    padding: 14px 18px 14px;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+  .cab-shelf::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -1px;
+    height: 6px; background: linear-gradient(to bottom, rgba(43,38,32,.08), transparent);
+  }
+  .cab-cell { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .cab-cell svg { width: 64px; height: 64px; display: block; }
+  .cab-cell .lbl { font-family: var(--serif); font-style: italic; font-size: 14px; color: var(--ink-soft); }
+  .cab-cell .tier { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-faint); }
+
+  /* Tier ladder */
+  .ladder { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 24px; }
+  .ladder-row {
+    display: grid; grid-template-columns: 110px 1fr auto; gap: 22px;
+    align-items: center; padding: 14px 18px;
+    border: 1px solid var(--line); border-radius: 10px;
+    background: var(--paper-2);
+  }
+  .ladder-row .tname { font-family: var(--serif); font-style: italic; font-size: 20px; color: var(--ink); }
+  .ladder-row .specs { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .ladder-row .specs svg { width: 28px; height: 28px; flex: 0 0 28px; }
+  .ladder-row .specs span { font-size: 12px; color: var(--ink-soft); letter-spacing: .04em; }
+  .ladder-row .gate { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-faint); white-space: nowrap; }
+  [data-theme="dark"] .ladder-row { background: rgba(236,230,216,.04); }
+
+  /* Compare grid */
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; margin-top: 32px; }
+  .compare .label { font-family: var(--serif); font-style: italic; font-size: 18px; color: var(--ink-faint); text-align: center; margin-top: 14px; }
+
+  /* Status grid */
+  .status { display: grid; grid-template-columns: 1fr auto; gap: 18px 28px; margin-top: 28px; max-width: 720px; }
+  .status .item { font-family: var(--serif); font-size: 22px; color: var(--ink); }
+  .status .v { display: flex; align-items: center; gap: 10px; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-faint); }
+  .status .v.done { color: var(--matcha-deep); }
+  .status .v.wait { color: var(--warm); }
+  .status .dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+
+  /* Tech list */
+  .stack { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 40px; margin-top: 32px; }
+  .stack .k { font-family: var(--serif); font-style: italic; font-size: 18px; color: var(--ink-faint); }
+  .stack .vv { font-size: 16px; color: var(--ink); line-height: 1.5; }
+  .stack code { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 14px; background: var(--paper-2); padding: 2px 6px; border-radius: 4px; color: var(--ink); }
+
+  /* Footer */
+  .foot { position: absolute; bottom: 22px; left: 72px; right: 72px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-faint); }
+
+  /* Print */
+  @media print {
+    @page { size: 1280px 720px; margin: 0; }
+    body { background: var(--paper); }
+    .deck { padding: 0; gap: 0; }
+    .slide { aspect-ratio: auto; width: 1280px; height: 720px; border-radius: 0; border: none; box-shadow: none; page-break-after: always; break-after: page; }
+    .controls, .theme-toggle { display: none !important; }
+  }
+
+  /* Toolbar */
+  .toolbar {
+    position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%);
+    background: rgba(20,16,12,.92); color: #ECE6D8;
+    border-radius: 999px; padding: 10px 14px; display: flex; gap: 8px; align-items: center;
+    font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+    z-index: 100; backdrop-filter: blur(8px);
+  }
+  .toolbar button {
+    border: 1px solid rgba(255,255,255,.16); background: transparent; color: inherit;
+    padding: 6px 12px; border-radius: 999px; cursor: pointer; font: inherit; letter-spacing: inherit; text-transform: inherit;
+  }
+  .toolbar button:hover { background: rgba(255,255,255,.08); }
+  .toolbar .sep { width: 1px; height: 16px; background: rgba(255,255,255,.16); }
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- 1 — Title -->
+<section class="slide center">
+  <div class="slide-no">i</div>
+  <div class="eyebrow">Neurosync · Pitch</div>
+  <h1 style="font-style: italic;">Stone &amp; Tide</h1>
+  <div class="lede" style="text-align:center;">A timer that earns its identity.<br>The session carves the stone.</div>
+  <div class="rule"></div>
+  <div class="small">a tea room for the mind</div>
+  <div class="foot">
+    <span>Neurosync</span>
+    <span>2026 · concept review</span>
+  </div>
+</section>
+
+<!-- 2 — Where we are -->
+<section class="slide">
+  <div class="slide-no">ii</div>
+  <div class="eyebrow">Where we landed</div>
+  <h2 class="pad-top">Board picked Stone &amp; Tide.</h2>
+  <div class="rule"></div>
+  <div class="row" style="margin-top: 24px; gap: 56px;">
+    <div class="col">
+      <h3 style="color: var(--ink-soft); font-style: italic;">Forest Floor</h3>
+      <p style="margin-top: 10px;">Quiet, atmospheric, mossy palette. A good direction — but the room had already seen it.</p>
+      <div class="pill muted" style="margin-top:14px;"><span class="dot"></span>set aside</div>
+    </div>
+    <div class="col">
+      <h3 style="font-style: italic;">Stone &amp; Tide</h3>
+      <p style="margin-top: 10px;">Tea-room restraint. Paper, ink, matcha. A bolder identity move — but only if the timer carries it.</p>
+      <div class="pill" style="margin-top:14px;"><span class="dot"></span>chosen</div>
+    </div>
+  </div>
+  <div class="foot"><span>Stone &amp; Tide</span><span>2 · positioning</span></div>
+</section>
+
+<!-- 3 — The problem -->
+<section class="slide">
+  <div class="slide-no">iii</div>
+  <div class="eyebrow">First attempt</div>
+  <div class="row between" style="margin-top: 60px; align-items: center;">
+    <div class="col">
+      <div class="quote">&ldquo;this looks like shit. not&nbsp;readable.&rdquo;</div>
+      <div class="quote-attr">— chairman, review session</div>
+    </div>
+    <div class="col" style="max-width: 380px;">
+      <p>We put the time numerals <em>on</em> a filled stone. The text fought the stone for contrast at every theme. In dark mode, the stone stayed pale; in light mode, the wet glaze drowned the buttons.</p>
+      <p style="margin-top: 14px;">Tweaks couldn't save it. The concept itself was the bug.</p>
+    </div>
+  </div>
+  <div class="foot"><span>Stone &amp; Tide</span><span>3 · the problem</span></div>
+</section>
+
+<!-- 4 — The insight -->
+<section class="slide center">
+  <div class="slide-no">iv</div>
+  <div class="eyebrow">The pivot</div>
+  <h2 style="max-width: 18ch; text-align:center;">Stop putting numbers <em style="font-style: italic; color: var(--matcha-deep);">on</em> the stone.<br>Let the stone <em style="font-style: italic; color: var(--matcha-deep);">be</em> the progress.</h2>
+  <div class="rule"></div>
+  <p style="max-width: 56ch; text-align:center;">Numbers belong on paper — high contrast, always readable.<br>The stone does what only a stone can do: <em>change shape over time</em>.</p>
+  <div class="foot"><span>Stone &amp; Tide</span><span>4 · the insight</span></div>
+</section>
+
+<!-- 5 — The concept (rough → sphere) -->
+<section class="slide">
+  <div class="slide-no">v</div>
+  <div class="eyebrow">The concept</div>
+  <h2 class="pad-top">Rough rock, polished sphere.</h2>
+  <p style="margin-top: 12px; max-width: 56ch;">A real-time 3D stone is carved smoother as the session progresses. At 0% it's a river rock. At 100% it's a perfect sphere. The shape <em>is</em> the timer.</p>
+
+  <div class="strip">
+    <div class="cell">
+      <svg viewBox="0 0 160 160"><defs><radialGradient id="g0" cx="40%" cy="35%"><stop offset="0%" stop-color="#EBE4D6"/><stop offset="100%" stop-color="#A89878"/></radialGradient></defs>
+        <path d="M 80 16 C 124 12, 152 38, 150 80 C 148 118, 130 144, 96 152 C 60 158, 22 142, 14 110 C 6 76, 18 38, 50 22 C 60 18, 72 16, 80 16 Z" fill="url(#g0)"/>
+      </svg>
+      <div class="stage">0:00</div>
+      <div class="lbl">rough</div>
+    </div>
+    <div class="cell">
+      <svg viewBox="0 0 160 160"><defs><radialGradient id="g1" cx="38%" cy="32%"><stop offset="0%" stop-color="#EBE4D6"/><stop offset="100%" stop-color="#A89878"/></radialGradient></defs>
+        <path d="M 80 14 C 122 12, 146 40, 146 80 C 146 116, 124 142, 90 148 C 56 154, 22 138, 16 104 C 10 72, 24 38, 54 22 C 64 18, 72 14, 80 14 Z" fill="url(#g1)"/>
+      </svg>
+      <div class="stage">∼ 33%</div>
+      <div class="lbl">settling</div>
+    </div>
+    <div class="cell">
+      <svg viewBox="0 0 160 160"><defs><radialGradient id="g2" cx="36%" cy="30%"><stop offset="0%" stop-color="#EBE4D6"/><stop offset="100%" stop-color="#A89878"/></radialGradient></defs>
+        <path d="M 80 12 C 118 12, 142 42, 142 80 C 142 114, 122 140, 88 144 C 56 148, 24 134, 20 102 C 16 72, 30 40, 58 22 C 66 16, 74 12, 80 12 Z" fill="url(#g2)"/>
+      </svg>
+      <div class="stage">∼ 66%</div>
+      <div class="lbl">smoothing</div>
+    </div>
+    <div class="cell">
+      <svg viewBox="0 0 160 160"><defs><radialGradient id="g3" cx="36%" cy="30%"><stop offset="0%" stop-color="#EBE4D6"/><stop offset="100%" stop-color="#A89878"/></radialGradient></defs>
+        <circle cx="80" cy="80" r="66" fill="url(#g3)"/>
+      </svg>
+      <div class="stage">complete</div>
+      <div class="lbl">sphere</div>
+    </div>
+  </div>
+  <div class="foot"><span>Stone &amp; Tide</span><span>5 · concept</span></div>
+</section>
+
+<!-- 6 — The screen (light) -->
+<section class="slide">
+  <div class="slide-no">vi</div>
+  <div class="eyebrow">The screen — day</div>
+  <div class="compare">
+    <div>
+      <div class="phone">
+        <div class="phone-top">
+          <div>
+            <div class="phone-logo">Neurosync</div>
+            <div class="phone-sub">a tea room for the mind</div>
+          </div>
+          <div class="phone-toggle"></div>
+        </div>
+        <div class="phone-modes">
+          <div class="m on">sitting</div><div class="m">drifting</div><div class="m">studying</div><div class="m">manual</div>
+        </div>
+        <div class="phone-stone">
+          <svg viewBox="0 0 200 200">
+            <defs><radialGradient id="ps1" cx="38%" cy="32%"><stop offset="0%" stop-color="#EBE4D6"/><stop offset="100%" stop-color="#A89878"/></radialGradient></defs>
+            <path d="M 100 22 C 150 18, 180 56, 180 100 C 180 144, 156 178, 116 184 C 70 190, 28 168, 22 124 C 16 80, 38 32, 78 22 C 86 20, 94 20, 100 22 Z" fill="url(#ps1)"/>
+            <path d="M 60 60 Q 90 40, 120 44 Q 100 56, 76 80 Z" fill="rgba(255,255,255,.4)"/>
+          </svg>
+        </div>
+        <div class="phone-time" style="font-style: italic;">16:00</div>
+        <div class="phone-phase">— sitting —</div>
+        <div class="phone-controls">
+          <div class="c play">▶</div>
+          <div class="c">○</div>
+          <div class="c">↺</div>
+        </div>
+        <div class="phone-coll">
+          <div class="label">specimens — this week</div>
+          <div class="row2 specimen-row">
+            <svg class="spec" viewBox="0 0 60 60" aria-label="Clear Quartz">
+              <defs><linearGradient id="qz1" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#F4F1E8"/><stop offset="100%" stop-color="#C8C2B0"/></linearGradient></defs>
+              <polygon points="22,52 22,28 30,14 38,28 38,52" fill="url(#qz1)" stroke="#9A9282" stroke-width=".7"/>
+              <polygon points="30,52 30,14 38,28 38,52" fill="rgba(255,255,255,.35)"/>
+              <polygon points="14,52 14,34 22,22 22,52" fill="url(#qz1)" stroke="#9A9282" stroke-width=".7"/>
+              <polygon points="38,52 38,30 46,40 46,52" fill="url(#qz1)" stroke="#9A9282" stroke-width=".7"/>
+            </svg>
+            <svg class="spec" viewBox="0 0 60 60" aria-label="Calcite">
+              <defs><linearGradient id="ca1" x1="0" x2="1" y1="0" y2="1"><stop offset="0%" stop-color="#F1E4C4"/><stop offset="100%" stop-color="#C8A56A"/></linearGradient></defs>
+              <polygon points="14,30 30,12 46,30 30,50" fill="url(#ca1)" stroke="#8A6B3A" stroke-width=".7"/>
+              <polygon points="30,12 46,30 30,30" fill="rgba(255,255,255,.3)"/>
+              <polygon points="14,30 30,30 30,50" fill="rgba(0,0,0,.06)"/>
+            </svg>
+            <svg class="spec" viewBox="0 0 60 60" aria-label="Pyrite">
+              <defs><linearGradient id="py1" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#F5D061"/><stop offset="100%" stop-color="#B8881C"/></linearGradient></defs>
+              <polygon points="18,46 18,28 30,22 30,40" fill="url(#py1)" stroke="#6E5210" stroke-width=".6"/>
+              <polygon points="30,40 30,22 42,28 42,46" fill="url(#py1)" stroke="#6E5210" stroke-width=".6"/>
+              <polygon points="18,28 30,22 42,28 30,34" fill="#FBE38A" stroke="#6E5210" stroke-width=".6"/>
+              <polygon points="26,18 26,8 34,4 34,14" fill="url(#py1)" stroke="#6E5210" stroke-width=".6"/>
+              <polygon points="34,14 34,4 42,10 42,20" fill="url(#py1)" stroke="#6E5210" stroke-width=".6"/>
+              <polygon points="26,8 34,4 42,10 34,14" fill="#FBE38A" stroke="#6E5210" stroke-width=".6"/>
+            </svg>
+            <div class="pebble dashed" style="width: 26px; height: 26px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h2 style="font-size: 44px;">Numerals on paper.<br>Stone in the&nbsp;light.</h2>
+      <p style="margin-top: 18px; max-width: 32ch;">Time and phase live below the stone — black ink on cream, the way a wall clock would read.</p>
+      <p style="margin-top: 14px; max-width: 32ch;">The stone is free to be a stone: warm, asymmetric, slowly turning, slowly polishing.</p>
+    </div>
+  </div>
+  <div class="foot"><span>Stone &amp; Tide</span><span>6 · day mode</span></div>
+</section>
+
+<!-- 7 — The screen (night) -->
+<section class="slide" data-local-theme="dark" style="background: #1A1611; color: #ECE6D8;">
+  <div class="slide-no" style="color: rgba(236,230,216,.4);">vii</div>
+  <div class="eyebrow" style="color: rgba(236,230,216,.5);">The screen — night</div>
+  <div class="compare">
+    <div>
+      <div class="phone" style="background:#1A1611; border-color: rgba(236,230,216,.10); box-shadow: 0 30px 80px -40px rgba(0,0,0,.6), 0 0 0 8px #221C16;">
+        <div class="phone-top">
+          <div>
+            <div class="phone-logo" style="color:#ECE6D8;">Neurosync</div>
+            <div class="phone-sub" style="color: rgba(236,230,216,.5);">a tea room for the mind</div>
+          </div>
+          <div class="phone-toggle" style="background:#221C16; border-color: rgba(236,230,216,.10);"></div>
+        </div>
+        <div class="phone-modes">
+          <div class="m on" style="background: rgba(157,176,152,.12); border-color:#9DB098; color:#ECE6D8;">sitting</div>
+          <div class="m" style="color:#B8AE9C; border-color: rgba(236,230,216,.10);">drifting</div>
+          <div class="m" style="color:#B8AE9C; border-color: rgba(236,230,216,.10);">studying</div>
+          <div class="m" style="color:#B8AE9C; border-color: rgba(236,230,216,.10);">manual</div>
+        </div>
+        <div class="phone-stone">
+          <svg viewBox="0 0 200 200">
+            <defs><radialGradient id="ps2" cx="38%" cy="32%"><stop offset="0%" stop-color="#3A332C"/><stop offset="100%" stop-color="#1E1A17"/></radialGradient></defs>
+            <path d="M 100 22 C 150 18, 180 56, 180 100 C 180 144, 156 178, 116 184 C 70 190, 28 168, 22 124 C 16 80, 38 32, 78 22 C 86 20, 94 20, 100 22 Z" fill="url(#ps2)"/>
+            <path d="M 60 60 Q 90 40, 120 44 Q 100 56, 76 80 Z" fill="rgba(255,255,255,.05)"/>
+          </svg>
+        </div>
+        <div class="phone-time" style="font-style: italic; color:#ECE6D8;">16:00</div>
+        <div class="phone-phase" style="color: rgba(236,230,216,.5);">— sitting —</div>
+        <div class="phone-controls">
+          <div class="c play" style="background:#9DB098; border-color:#9DB098; color:#1A1611;">▶</div>
+          <div class="c" style="color:#B8AE9C; border-color: rgba(236,230,216,.10);">○</div>
+          <div class="c" style="color:#B8AE9C; border-color: rgba(236,230,216,.10);">↺</div>
+        </div>
+        <div class="phone-coll" style="border-color: rgba(236,230,216,.10);">
+          <div class="label" style="color: rgba(236,230,216,.5);">stones held — this week</div>
+          <div class="row2">
+            <div class="pebble" style="background: radial-gradient(circle at 35% 30%, #3A332C, #1E1A17 80%);"></div>
+            <div class="pebble" style="background: radial-gradient(circle at 35% 30%, #3A332C, #1E1A17 80%);"></div>
+            <div class="pebble" style="background: radial-gradient(circle at 35% 30%, #3A332C, #1E1A17 80%);"></div>
+            <div class="pebble dashed" style="border-color: rgba(236,230,216,.4);"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h2 style="font-size: 44px; color:#ECE6D8;">Same room.<br>Lower&nbsp;lamp.</h2>
+      <p style="margin-top: 18px; max-width: 32ch; color:#B8AE9C;">The stone takes the dark tones of slate. The paper turns the color of midnight tea.</p>
+      <p style="margin-top: 14px; max-width: 32ch; color:#B8AE9C;">Contrast is preserved because the numerals never had to compete with the stone in the first place.</p>
+    </div>
+  </div>
+  <div class="foot" style="color: rgba(236,230,216,.4);"><span>Stone &amp; Tide</span><span>7 · night mode</span></div>
+</section>
+
+<!-- 8 — The artifact (mineral cabinet) -->
+<section class="slide">
+  <div class="slide-no">viii</div>
+  <div class="eyebrow">The artifact</div>
+  <h2 class="pad-top">Sessions become specimens.</h2>
+  <p style="margin-top: 12px; max-width: 64ch;">The polished sphere doesn't just <em>drop</em> into a shelf — it crystallizes. Each completed session yields a real mineral specimen. Over time, the user builds a cabinet of stones, not a streak count.</p>
+
+  <div class="cabinet">
+    <div class="cab-shelf">
+      <div class="cab-cell">
+        <svg viewBox="0 0 60 60" aria-label="Clear Quartz">
+          <defs><linearGradient id="qzA" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#F4F1E8"/><stop offset="100%" stop-color="#C8C2B0"/></linearGradient></defs>
+          <polygon points="22,52 22,28 30,14 38,28 38,52" fill="url(#qzA)" stroke="#9A9282" stroke-width=".7"/>
+          <polygon points="30,52 30,14 38,28 38,52" fill="rgba(255,255,255,.35)"/>
+          <polygon points="14,52 14,34 22,22 22,52" fill="url(#qzA)" stroke="#9A9282" stroke-width=".7"/>
+          <polygon points="38,52 38,30 46,40 46,52" fill="url(#qzA)" stroke="#9A9282" stroke-width=".7"/>
+        </svg>
+        <div class="lbl">Clear Quartz</div>
+        <div class="tier">Tier I</div>
+      </div>
+      <div class="cab-cell">
+        <svg viewBox="0 0 60 60" aria-label="Calcite">
+          <defs><linearGradient id="caA" x1="0" x2="1" y1="0" y2="1"><stop offset="0%" stop-color="#F1E4C4"/><stop offset="100%" stop-color="#C8A56A"/></linearGradient></defs>
+          <polygon points="14,30 30,12 46,30 30,50" fill="url(#caA)" stroke="#8A6B3A" stroke-width=".7"/>
+          <polygon points="30,12 46,30 30,30" fill="rgba(255,255,255,.3)"/>
+          <polygon points="14,30 30,30 30,50" fill="rgba(0,0,0,.06)"/>
+        </svg>
+        <div class="lbl">Calcite</div>
+        <div class="tier">Tier I</div>
+      </div>
+      <div class="cab-cell">
+        <svg viewBox="0 0 60 60" aria-label="Pyrite">
+          <defs><linearGradient id="pyA" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#F5D061"/><stop offset="100%" stop-color="#B8881C"/></linearGradient></defs>
+          <polygon points="18,46 18,28 30,22 30,40" fill="url(#pyA)" stroke="#6E5210" stroke-width=".6"/>
+          <polygon points="30,40 30,22 42,28 42,46" fill="url(#pyA)" stroke="#6E5210" stroke-width=".6"/>
+          <polygon points="18,28 30,22 42,28 30,34" fill="#FBE38A" stroke="#6E5210" stroke-width=".6"/>
+          <polygon points="26,18 26,8 34,4 34,14" fill="url(#pyA)" stroke="#6E5210" stroke-width=".6"/>
+          <polygon points="34,14 34,4 42,10 42,20" fill="url(#pyA)" stroke="#6E5210" stroke-width=".6"/>
+          <polygon points="26,8 34,4 42,10 34,14" fill="#FBE38A" stroke="#6E5210" stroke-width=".6"/>
+        </svg>
+        <div class="lbl">Pyrite</div>
+        <div class="tier">Tier II</div>
+      </div>
+      <div class="cab-cell">
+        <svg viewBox="0 0 60 60" aria-label="Amethyst">
+          <defs><linearGradient id="amA" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#C9A3DF"/><stop offset="100%" stop-color="#5E3E7A"/></linearGradient></defs>
+          <polygon points="16,52 16,32 22,22 28,32 28,52" fill="url(#amA)" stroke="#3F2853" stroke-width=".6"/>
+          <polygon points="22,52 22,22 28,32 28,52" fill="rgba(255,255,255,.18)"/>
+          <polygon points="28,52 28,28 36,16 44,28 44,52" fill="url(#amA)" stroke="#3F2853" stroke-width=".6"/>
+          <polygon points="36,52 36,16 44,28 44,52" fill="rgba(255,255,255,.18)"/>
+          <polygon points="44,52 44,36 50,28 50,52" fill="url(#amA)" stroke="#3F2853" stroke-width=".6"/>
+        </svg>
+        <div class="lbl">Amethyst</div>
+        <div class="tier">Tier II</div>
+      </div>
+      <div class="cab-cell">
+        <svg viewBox="0 0 60 60" aria-label="Malachite">
+          <defs><radialGradient id="mlA" cx="40%" cy="40%"><stop offset="0%" stop-color="#7CC080"/><stop offset="55%" stop-color="#2F6E3A"/><stop offset="100%" stop-color="#143820"/></radialGradient></defs>
+          <ellipse cx="30" cy="38" rx="22" ry="16" fill="url(#mlA)"/>
+          <ellipse cx="30" cy="38" rx="16" ry="11" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1.4"/>
+          <ellipse cx="30" cy="38" rx="10" ry="7" fill="none" stroke="rgba(0,0,0,.25)" stroke-width="1"/>
+          <ellipse cx="30" cy="38" rx="5" ry="3" fill="rgba(255,255,255,.22)"/>
+        </svg>
+        <div class="lbl">Malachite</div>
+        <div class="tier">Tier III</div>
+      </div>
+      <div class="cab-cell">
+        <svg viewBox="0 0 60 60" aria-label="Aquamarine">
+          <defs><linearGradient id="aqA" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#C6E8E8"/><stop offset="100%" stop-color="#4F8C90"/></linearGradient></defs>
+          <polygon points="22,52 22,18 30,8 38,18 38,52" fill="url(#aqA)" stroke="#2E5860" stroke-width=".6"/>
+          <polygon points="30,52 30,8 38,18 38,52" fill="rgba(255,255,255,.35)"/>
+          <polygon points="22,52 22,18 30,8 30,52" fill="rgba(0,0,0,.06)"/>
+        </svg>
+        <div class="lbl">Aquamarine</div>
+        <div class="tier">Tier IV</div>
+      </div>
+      <div class="cab-cell">
+        <svg viewBox="0 0 60 60" aria-label="Native Gold">
+          <defs>
+            <linearGradient id="auA" x1="0" x2="1" y1="0" y2="1"><stop offset="0%" stop-color="#FCE08A"/><stop offset="60%" stop-color="#D9A21A"/><stop offset="100%" stop-color="#7E5F0D"/></linearGradient>
+            <linearGradient id="auMx" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#E8E2D2"/><stop offset="100%" stop-color="#9A9282"/></linearGradient>
+          </defs>
+          <ellipse cx="30" cy="36" rx="22" ry="16" fill="url(#auMx)" stroke="#7A7264" stroke-width=".6"/>
+          <path d="M 18 32 Q 22 24 28 28 Q 34 22 38 30 Q 44 28 42 36 Q 38 42 30 38 Q 22 42 18 32 Z" fill="url(#auA)" stroke="#5C4308" stroke-width=".6"/>
+          <circle cx="32" cy="32" r="1.4" fill="#FFE08A"/>
+          <circle cx="26" cy="36" r="1" fill="#FFE08A"/>
+        </svg>
+        <div class="lbl">Native Gold</div>
+        <div class="tier">Tier V</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 44px;">
+    <div>
+      <div class="eyebrow" style="margin-bottom: 8px;">tactile</div>
+      <p style="font-size: 14px;">Each specimen is a distinct object — crystal habit, color, luster. Not a generic pebble.</p>
+    </div>
+    <div>
+      <div class="eyebrow" style="margin-bottom: 8px;">honest</div>
+      <p style="font-size: 14px;">In-progress sessions appear as a dashed outline. The shape only resolves when you finish.</p>
+    </div>
+    <div>
+      <div class="eyebrow" style="margin-bottom: 8px;">earned</div>
+      <p style="font-size: 14px;">Common first, rare later. The cabinet grows the way a real collection grows: slowly, deliberately.</p>
+    </div>
+  </div>
+  <div class="foot"><span>Stone &amp; Tide</span><span>8 · the cabinet</span></div>
+</section>
+
+<!-- 9 — Rarity tiers -->
+<section class="slide">
+  <div class="slide-no">ix</div>
+  <div class="eyebrow">Rarity</div>
+  <h2 class="pad-top">From very common to very rare.</h2>
+  <p style="margin-top: 10px; max-width: 60ch; font-size: 15px;">Specimens unlock in tiers, gated by completed sessions. A new user fills a starter shelf in their first week. A devoted user works toward Tier V over months.</p>
+
+  <div class="ladder">
+    <div class="ladder-row">
+      <div class="tname">Tier I</div>
+      <div class="specs">
+        <svg viewBox="0 0 60 60"><polygon points="22,52 22,28 30,14 38,28 38,52" fill="url(#qzA)" stroke="#9A9282" stroke-width=".7"/><polygon points="14,52 14,34 22,22 22,52" fill="url(#qzA)" stroke="#9A9282" stroke-width=".7"/></svg>
+        <span>Clear Quartz · Rose Quartz · Smoky Quartz · Calcite</span>
+      </div>
+      <div class="gate">sessions 1 – 7 · very common</div>
+    </div>
+    <div class="ladder-row">
+      <div class="tname">Tier II</div>
+      <div class="specs">
+        <svg viewBox="0 0 60 60"><polygon points="18,46 18,28 30,22 30,40" fill="url(#pyA)" stroke="#6E5210" stroke-width=".6"/><polygon points="30,40 30,22 42,28 42,46" fill="url(#pyA)" stroke="#6E5210" stroke-width=".6"/><polygon points="18,28 30,22 42,28 30,34" fill="#FBE38A" stroke="#6E5210" stroke-width=".6"/></svg>
+        <span>Pyrite · Agate · Amethyst · Fluorite</span>
+      </div>
+      <div class="gate">sessions 8 – 30 · common</div>
+    </div>
+    <div class="ladder-row">
+      <div class="tname">Tier III</div>
+      <div class="specs">
+        <svg viewBox="0 0 60 60"><ellipse cx="30" cy="38" rx="22" ry="16" fill="url(#mlA)"/><ellipse cx="30" cy="38" rx="14" ry="10" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="1.2"/></svg>
+        <span>Malachite · Azurite · Tourmaline · Garnet</span>
+      </div>
+      <div class="gate">sessions 31 – 100 · uncommon</div>
+    </div>
+    <div class="ladder-row">
+      <div class="tname">Tier IV</div>
+      <div class="specs">
+        <svg viewBox="0 0 60 60"><polygon points="22,52 22,18 30,8 38,18 38,52" fill="url(#aqA)" stroke="#2E5860" stroke-width=".6"/><polygon points="30,52 30,8 38,18 38,52" fill="rgba(255,255,255,.35)"/></svg>
+        <span>Aquamarine · Morganite · Heliodor · Rhodochrosite · Smithsonite</span>
+      </div>
+      <div class="gate">sessions 101 – 300 · rare</div>
+    </div>
+    <div class="ladder-row">
+      <div class="tname">Tier V</div>
+      <div class="specs">
+        <svg viewBox="0 0 60 60"><ellipse cx="30" cy="36" rx="22" ry="16" fill="url(#auMx)" stroke="#7A7264" stroke-width=".6"/><path d="M 18 32 Q 22 24 28 28 Q 34 22 38 30 Q 44 28 42 36 Q 38 42 30 38 Q 22 42 18 32 Z" fill="url(#auA)" stroke="#5C4308" stroke-width=".6"/></svg>
+        <span>Emerald · Red Beryl · Native Gold · Native Silver · Cavansite</span>
+      </div>
+      <div class="gate">milestone unlocks · very rare</div>
+    </div>
+  </div>
+  <div class="foot"><span>Stone &amp; Tide</span><span>9 · rarity</span></div>
+</section>
+
+<!-- 10 — How it's built -->
+<section class="slide">
+  <div class="slide-no">x</div>
+  <div class="eyebrow">How it's built</div>
+  <h2 class="pad-top">3D, but quiet.</h2>
+  <div class="stack">
+    <div>
+      <div class="k">scene</div>
+      <div class="vv">Built in <strong>Spline</strong>. An icosphere with a noise-displacement modifier driven by a single variable, <code>polish</code> (0 → 1). Smooth morph, no popping.</div>
+    </div>
+    <div>
+      <div class="k">embed</div>
+      <div class="vv">Web component <code>&lt;spline-viewer&gt;</code> in the page. Transparent background — the paper grain shows through.</div>
+    </div>
+    <div>
+      <div class="k">bridge</div>
+      <div class="vv">JS calls <code>viewer.setVariable('polish', t)</code> as the timer ticks. Already wired and verified with a demo scrub.</div>
+    </div>
+    <div>
+      <div class="k">fallback</div>
+      <div class="vv">Hand-drawn SVG silhouette renders if WebGL is off or the scene fails to load. The app never shows a blank canvas.</div>
+    </div>
+    <div>
+      <div class="k">mood</div>
+      <div class="vv">Wabi-sabi lighting: warm hemisphere + a single soft key, matte stone, no bloom, no chromatic aberration.</div>
+    </div>
+    <div>
+      <div class="k">motion</div>
+      <div class="vv">Idle Y-rotation, breathing tilt. Honors <code>prefers-reduced-motion</code>.</div>
+    </div>
+    <div>
+      <div class="k">specimens</div>
+      <div class="vv">Each mineral is its own Spline scene. Same lighting rig, same camera — only the geometry &amp; material change. Designer builds them in batches by tier.</div>
+    </div>
+  </div>
+  <div class="foot"><span>Stone &amp; Tide</span><span>10 · build</span></div>
+</section>
+
+<!-- 11 — Status -->
+<section class="slide">
+  <div class="slide-no">xi</div>
+  <div class="eyebrow">Status</div>
+  <h2 class="pad-top">Ready for the scene.</h2>
+  <div class="status">
+    <div class="item">Stone &amp; Tide mockup shell, light + dark</div>
+    <div class="v done"><span class="dot"></span>done</div>
+    <div class="item">Polish scrub control + JS bridge to <code>polish</code></div>
+    <div class="v done"><span class="dot"></span>done</div>
+    <div class="item">Hand-drawn SVG fallback for the timer</div>
+    <div class="v done"><span class="dot"></span>done</div>
+    <div class="item">Mineral cabinet — replaces streak counter</div>
+    <div class="v done"><span class="dot"></span>done</div>
+    <div class="item">Rarity tier system, I – V (≈ 23 specimens)</div>
+    <div class="v done"><span class="dot"></span>defined</div>
+    <div class="item">3D handoff spec — timer stone (<code>SPLINE-STONE-SPEC.md</code>)</div>
+    <div class="v done"><span class="dot"></span>delivered</div>
+    <div class="item">3D handoff spec — specimen library (<code>SPLINE-SPECIMENS-SPEC.md</code>)</div>
+    <div class="v wait"><span class="dot"></span>drafting</div>
+    <div class="item">Spline scenes built &amp; exported (timer + Tier I batch)</div>
+    <div class="v wait"><span class="dot"></span>with designer</div>
+    <div class="item">Real timer → <code>polish</code> wiring (replaces demo scrub)</div>
+    <div class="v wait"><span class="dot"></span>next round</div>
+  </div>
+  <div class="foot"><span>Stone &amp; Tide</span><span>11 · status</span></div>
+</section>
+
+<!-- 12 — Close -->
+<section class="slide center">
+  <div class="slide-no">xii</div>
+  <div class="eyebrow">The bet</div>
+  <h2 style="text-align:center; max-width: 22ch;">A timer you can <em style="font-style: italic; color: var(--matcha-deep);">hold</em>.</h2>
+  <div class="rule"></div>
+  <p style="text-align:center; max-width: 50ch;">Most focus apps reward you with a number going up. Stone &amp; Tide rewards you with an object you finished — small, round, and slightly warm to the eye.</p>
+  <div style="margin-top: 18px;" class="small">— end —</div>
+  <div class="foot"><span>Neurosync · Stone &amp; Tide</span><span>fin</span></div>
+</section>
+
+</div>
+
+<div class="toolbar">
+  <button id="theme-btn">theme</button>
+  <span class="sep"></span>
+  <button onclick="window.print()">export pdf</button>
+</div>
+
+<script>
+  document.getElementById('theme-btn').addEventListener('click', () => {
+    const cur = document.documentElement.dataset.theme;
+    document.documentElement.dataset.theme = cur === 'dark' ? 'light' : 'dark';
+  });
+</script>
+</body>
+</html>

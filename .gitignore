@@ -15,6 +15,10 @@ Thumbs.db
 *.tmp
 /tmp/
 
+# Local dev tooling with hardcoded paths
+.serve.sh
+*.command
+
 # Node (if added later)
 node_modules/
 npm-debug.log*
